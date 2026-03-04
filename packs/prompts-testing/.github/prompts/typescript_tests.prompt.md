@@ -1,0 +1,18 @@
+---
+name: typescript_tests
+description: Create or update TypeScript/JavaScript tests with deterministic setup and behavior-focused assertions.
+model: GPT-5.3-Codex (copilot)
+---
+
+Create tests for TypeScript/JavaScript code.
+
+## Workflow
+
+1. Place tests in the nearest test folder.
+2. Follow scoped instruction files for framework/test conventions.
+3. Keep tests deterministic and assert behavior over implementation details.
+4. Run narrow scope first, then broaden.
+
+## Execution
+
+- `npm run test` (from `{{CLIENT_ROOT}}`)
