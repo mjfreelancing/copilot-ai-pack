@@ -2,7 +2,7 @@
 
 ## Files
 
-- `sync-copilot-assets.ps1`: applies selected pack(s) into a target repo.
+- `sync-copilot-assets.ps1`: applies selected pack(s) into a target repository.
 - `pack-profiles.json`: reusable pack combinations.
 
 ## Typical usage
@@ -26,6 +26,14 @@ Apply with profile:
 ```
 
 Token replacement can be enabled via `-TokenFile` (JSON key-value pairs where keys map to `{{TOKEN}}` placeholders).
+
+## First run checklist
+
+1. Confirm target repository path is correct.
+2. Choose either `-Packs` or `-AssetProfile`.
+3. Run with `-DryRun` first.
+4. Confirm planned destination paths are correct.
+5. Re-run without `-DryRun` to apply.
 
 ## Pack manifests
 
@@ -54,13 +62,13 @@ The sync script performs destination-path collision detection before writing fil
 
 This repository is designed to be consumed from project-local wrappers/tasks.
 
-Recommended in each consuming repo:
+Recommended in each consuming repository:
 
 1. Add a project-local wrapper script that calls this sync script.
 2. Add VS Code tasks for dry-run and apply.
 3. Let developers run updates via `Tasks: Run Task`.
 
-Suggested task labels in consuming repos:
+Suggested task labels in consuming repositories:
 
 - `sync-global-copilot-assets-dryrun`
 - `sync-global-copilot-assets`
@@ -84,18 +92,18 @@ Wrapper script template is provided in:
 
 This matrix shows how values flow from task templates to wrapper script parameters and then into the sync script.
 
-| Source                                                 | Parameter / Input                | Maps to                                        | Notes                                                                         |
-| ------------------------------------------------------ | -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------- |
-| Task template (`interactive`)                          | `${input:copilotAssetsProfile}`  | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Selects a named profile from `pack-profiles.json`.                            |
-| Task template (`interactive`)                          | `${input:copilotAssetsRepoPath}` | Wrapper `-AssetsRepoPath`                      | Wrapper resolves sync script location from this path.                         |
-| Task template (`minimal`)                              | No explicit profile input        | Wrapper default behavior                       | Wrapper chooses profile/default behavior configured in consuming repo script. |
-| Task templates (`backend/frontend/api-postgres`)       | Hardcoded profile in command     | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Profile is pinned in the task command.                                        |
-| Wrapper                                                | `-Packs`                         | Sync `-Packs`                                  | Explicit pack names; merged with profile packs and de-duplicated.             |
-| Wrapper                                                | `-AssetProfile`                  | Sync `-AssetProfile`                           | Profile-based pack selection.                                                 |
-| Wrapper                                                | `-ProfilesPath`                  | Sync `-ProfilesPath`                           | Optional override path for profile JSON.                                      |
-| Wrapper                                                | `-TokenFile`                     | Sync `-TokenFile`                              | Enables `{{TOKEN}}` replacement for supported text files.                     |
-| Wrapper                                                | `-DryRun`                        | Sync `-DryRun`                                 | Generates plan output, writes no files.                                       |
-| Wrapper (internal)                                     | Derived target repo path         | Sync `-TargetRepo`                             | Usually wrapper repo root (e.g., path resolved from script location).         |
+| Source                                           | Parameter / Input                | Maps to                                        | Notes                                                                         |
+| ------------------------------------------------ | -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------- |
+| Task template (`interactive`)                    | `${input:copilotAssetsProfile}`  | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Selects a named profile from `pack-profiles.json`.                            |
+| Task template (`interactive`)                    | `${input:copilotAssetsRepoPath}` | Wrapper `-AssetsRepoPath`                      | Wrapper resolves sync script location from this path.                         |
+| Task template (`minimal`)                        | No explicit profile input        | Wrapper default behavior                       | Wrapper chooses profile/default behavior configured in the consuming repository script. |
+| Task templates (`backend/frontend/api-postgres`) | Hardcoded profile in command     | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Profile is pinned in the task command.                                        |
+| Wrapper                                          | `-Packs`                         | Sync `-Packs`                                  | Explicit pack names; merged with profile packs and de-duplicated.             |
+| Wrapper                                          | `-AssetProfile`                  | Sync `-AssetProfile`                           | Profile-based pack selection.                                                 |
+| Wrapper                                          | `-ProfilesPath`                  | Sync `-ProfilesPath`                           | Optional override path for profile JSON.                                      |
+| Wrapper                                          | `-TokenFile`                     | Sync `-TokenFile`                              | Enables `{{TOKEN}}` replacement for supported text files.                     |
+| Wrapper                                          | `-DryRun`                        | Sync `-DryRun`                                 | Generates plan output, writes no files.                                       |
+| Wrapper (internal)                               | Derived target repository path   | Sync `-TargetRepo`                             | Usually wrapper repository root (e.g., path resolved from script location).   |
 
 ### Required vs optional parameters
 
@@ -121,7 +129,7 @@ Interactive task dry-run:
 Explicit packs apply run:
 
 1. Wrapper receives `-Packs @('csharp-core','dotnet-unit-tests')`.
-2. Wrapper calls sync script with same pack list and resolved target repo.
+2. Wrapper calls sync script with same pack list and resolved target repository.
 3. Sync validates pack manifests, plans copy set, checks collisions, then writes files.
 
 Profile-pinned template run:

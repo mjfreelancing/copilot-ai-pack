@@ -4,8 +4,8 @@ Reusable template assets for repositories consuming this pack collection.
 
 ## Contents
 
-- `scripts/` — wrapper script templates for syncing assets from consuming repos.
-- `tasks/` — VS Code task templates for running sync workflows from consuming repos.
+- `scripts/` — wrapper script templates for syncing assets from consuming repositories.
+- `tasks/` — VS Code task templates for running sync workflows from consuming repositories.
 - `tokens/` — token-file examples for placeholder replacement during sync.
 
 ## See also

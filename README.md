@@ -4,7 +4,7 @@ Reusable Copilot asset packs and sync tooling for quickly bootstrapping consiste
 
 ## What this repository contains
 
-This repo is a centralized asset source for:
+This repository is a centralized asset source for:
 
 - language/framework-specific Copilot instructions and prompts
 - test and preflight guidance packs
@@ -33,6 +33,30 @@ This repo is a centralized asset source for:
 - `templates/scripts/` — copy-ready wrapper script templates
 - `templates/tasks/` — copy-ready VS Code task templates and docs
 
+## First-time setup in a consuming repository
+
+Use this flow when you want to apply these assets to another repository with minimal PowerShell knowledge.
+
+1. Copy wrapper script template into the target repository:
+
+- from `templates/scripts/sync-global-copilot-assets.ps1.template`
+- to `.github/scripts/sync-global-copilot-assets.ps1`
+
+2. Copy one task template into target repository `.vscode/tasks.json`:
+
+- use `templates/tasks/minimal.tasks.template.jsonc` for a simple default flow
+- or use `templates/tasks/interactive.tasks.template.jsonc` for profile/path prompts
+
+3. Run task `sync-global-copilot-assets-dryrun` first.
+4. Review planned file writes and verify there are no collisions or path mistakes.
+5. Run the apply task (`sync-global-copilot-assets`) after dry-run looks correct.
+
+See detailed setup docs:
+
+- `templates/scripts/README.md`
+- `templates/tasks/README.md`
+- `sync/README.md`
+
 ## Pack root README policy
 
 Pack directories under `packs/*/` should not contain root-level `README.md` files.
@@ -40,7 +64,7 @@ Pack directories under `packs/*/` should not contain root-level `README.md` file
 Reason:
 
 - The sync script copies pack contents into target repositories preserving relative paths from each pack root.
-- Root-level files with the same name (especially `README.md`) can collide across packs and overwrite content in the target repo.
+- Root-level files with the same name (especially `README.md`) can collide across packs and overwrite content in the target repository.
 - Consolidating pack intent in this root README avoids duplicate documentation and reduces sync risk.
 
 For pack details, use the assets under each pack’s `.github/...` structure and the pack catalog in this file.
@@ -74,7 +98,43 @@ Defined in `sync/pack-profiles.json`:
 - `aspnetcore-api-postgres`
 - `fullstack-react-aspnet-postgres`
 
-## Typical workflow for consuming repos
+### Which profile should I pick?
+
+| If your repository is...                                    | Start with profile                | Why                                                                         |
+| ----------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------- |
+| C#/.NET backend, service, or library                        | `dotnet-csharp-tests`             | Adds baseline + C# + .NET unit test guidance + testing prompts + preflight. |
+| React + TypeScript frontend                                 | `react-typescript-client`         | Adds baseline + TypeScript + React + testing prompts + preflight.           |
+| ASP.NET Core API with Postgres/EF                           | `aspnetcore-api-postgres`         | Adds API + integration/unit test + Postgres/EF guidance in one profile.     |
+| Full-stack React + ASP.NET Core + Postgres + Docker workflow | `fullstack-react-aspnet-postgres` | Includes frontend, backend, DB, and Docker-oriented guidance together.      |
+
+### Profile to packs map
+
+| Profile | Included packs |
+| --- | --- |
+| `dotnet-csharp-tests` | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`, `prompts-testing`, `environment-preflight` |
+| `react-typescript-client` | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`, `environment-preflight` |
+| `aspnetcore-api-postgres` | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore`, `prompts-testing`, `environment-preflight` |
+| `fullstack-react-aspnet-postgres` | `language-agnostic-core`, `typescript-core`, `react-client`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `docker-compose`, `postgres-efcore`, `prompts-testing`, `environment-preflight` |
+
+## Pack catalog (what each pack adds)
+
+Use `packs/README.md` as the detailed source of truth, including exact file paths, when-to-use guidance, and common pitfalls.
+
+Quick orientation:
+
+- `language-agnostic-core`: baseline cross-language coding rules.
+- `csharp-core`: C# language and architecture conventions.
+- `typescript-core`: TypeScript language and runtime behavior guidance.
+- `react-client`: React architecture, state, and UX guidance.
+- `aspnetcore-api`: API endpoint, contracts, and runtime rules.
+- `aspnetcore-integration-tests`: hosted API integration testing guidance.
+- `dotnet-unit-tests`: deterministic .NET unit testing conventions.
+- `postgres-efcore`: EF Core and PostgreSQL modeling/query/migration rules.
+- `docker-compose`: Docker lifecycle, safety, and validation workflow guidance.
+- `prompts-testing`: reusable prompts for generating/running tests.
+- `environment-preflight`: pre-session environment diagnostics skill and script.
+
+## Typical workflow for consuming repositories
 
 1. Add a project-local wrapper script that calls `sync/sync-copilot-assets.ps1`.
 2. Add VS Code tasks using templates in `templates/tasks/`.
@@ -94,9 +154,9 @@ This repository uses strict behavior to reduce ambiguity and risk.
 ### Prerequisites
 
 - PowerShell 7+ (`pwsh`) recommended.
-- Pester 5+ required for tests in this repo.
+- Pester 5+ required for tests in this repository.
 
-Note: Windows includes an inbox Pester 3.x for Windows PowerShell 5.1, but this repo should use modern Pester 5 in `pwsh`.
+Note: Windows includes an inbox Pester 3.x for Windows PowerShell 5.1, but this repository should use modern Pester 5 in `pwsh`.
 
 ### Install prerequisites
 
