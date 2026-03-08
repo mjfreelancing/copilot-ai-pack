@@ -54,19 +54,19 @@ Use this when running sync directly from this assets repository.
 Dry run with explicit packs:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests -DryRun
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests -DryRun
 ```
 
 Apply with explicit packs:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests
 ```
 
 Apply with a profile:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests
 ```
 
 ## End-to-end example (before/after)
@@ -79,10 +79,10 @@ Example scenario:
 
 ```powershell
 # Dry Run
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres -DryRun
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres -DryRun
 
 # Apply
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres
 ```
 
 Before sync, target repository may not contain Copilot assets:
@@ -265,7 +265,7 @@ Note: Windows includes an inbox Pester 3.x for Windows PowerShell 5.1, but this 
 From repository root in `pwsh`:
 
 ```powershell
-./scripts/ensure-test-prereqs.ps1
+.\scripts\ensure-test-prereqs.ps1
 ```
 
 This command checks prerequisites and installs only what is missing. If everything is already available, it logs that no installation is needed.
@@ -275,7 +275,7 @@ If PSGallery trust prompts block installation in non-interactive environments:
 From repository root in `pwsh`:
 
 ```powershell
-./scripts/ensure-test-prereqs.ps1 -TrustPSGallery
+.\scripts\ensure-test-prereqs.ps1 -TrustPSGallery
 ```
 
 ### Run tests
@@ -283,13 +283,13 @@ From repository root in `pwsh`:
 Run all repository sync tests:
 
 ```powershell
-./scripts/run-tests.ps1
+.\scripts\run-tests.ps1
 ```
 
 Run a specific test file or folder:
 
 ```powershell
-./scripts/run-tests.ps1 -Path ./sync/tests/sync-copilot-assets.Tests.ps1
+.\scripts\run-tests.ps1 -Path .\sync\tests\sync-copilot-assets.Tests.ps1
 ```
 
 ### Validate test output
@@ -302,7 +302,7 @@ If failures occur:
 
 - Read the failing `It` case name and error message.
 - Fix the script behavior or test expectation.
-- Re-run the same test file first, then the full `./sync/tests` folder.
+- Re-run the same test file first, then the full `.\sync\tests` folder.
 
 ## Related docs
 

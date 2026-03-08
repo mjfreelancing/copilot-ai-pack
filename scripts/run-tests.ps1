@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Path = './sync/tests'
+    [string]$Path = '.\\sync\\tests'
 )
 
 Set-StrictMode -Version Latest

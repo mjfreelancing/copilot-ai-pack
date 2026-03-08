@@ -27,5 +27,5 @@ Copy-ready script templates for consuming repositories.
 If you need to test wrapper behavior directly from the target repository root:
 
 ```powershell
-./.github/scripts/sync-global-copilot-assets.ps1 -DryRun -AssetProfile "dotnet-csharp-tests"
+.\.github\scripts\sync-global-copilot-assets.ps1 -DryRun -AssetProfile "dotnet-csharp-tests"
 ```

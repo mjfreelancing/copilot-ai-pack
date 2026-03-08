@@ -10,19 +10,19 @@
 Dry run:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests -DryRun
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests -DryRun
 ```
 
 Apply:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests
 ```
 
 Apply with profile:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests
 ```
 
 Token replacement can be enabled via `-TokenFile` (JSON key-value pairs where keys map to `{{TOKEN}}` placeholders).

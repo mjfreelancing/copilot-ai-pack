@@ -7,7 +7,7 @@ Copy-ready task snippets for consuming repositories that want a non-CLI workflow
 - Choose `minimal` if your team usually runs one profile.
 - Choose `interactive` if developers need to pick profile/path at runtime.
 - Choose one of the profile-pinned templates when repository type is stable (`backend-only`, `frontend-only`, `api-postgres-only`).
-- Add `tests.tasks.template.jsonc` when the target repository includes `./scripts/run-tests.ps1`.
+- Add `tests.tasks.template.jsonc` when the target repository includes `.\scripts\run-tests.ps1`.
 
 ## Pick the right profile quickly
 
@@ -33,7 +33,7 @@ For full profile-to-pack composition details, see [../../README.md](../../README
 | `backend-only.tasks.template.jsonc`      | `sync-global-copilot-assets-dryrun-backend-only`, `sync-global-copilot-assets-backend-only`           | `dotnet-csharp-tests`     | API/service/library repositories that do not need frontend/docker/postgres packs.      |
 | `frontend-only.tasks.template.jsonc`     | `sync-global-copilot-assets-dryrun-frontend-only`, `sync-global-copilot-assets-frontend-only`         | `react-typescript-client` | Frontend repositories that do not need backend/postgres/docker packs.                  |
 | `api-postgres-only.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-api-postgres-only`, `sync-global-copilot-assets-api-postgres-only` | `aspnetcore-api-postgres` | Backend API repositories with database concerns and no frontend pack requirements.     |
-| `tests.tasks.template.jsonc`             | `run-tests`                                                                                           | N/A                       | Repositories that include a PowerShell test runner script (`./scripts/run-tests.ps1`). |
+| `tests.tasks.template.jsonc`             | `run-tests`                                                                                           | N/A                       | Repositories that include a PowerShell test runner script (`.\scripts\run-tests.ps1`). |
 
 ## Prerequisite in target repository
 
@@ -45,7 +45,7 @@ Use this template from the assets repository:
 
 The task templates intentionally call the local wrapper, not the global script directly.
 
-If using `tests.tasks.template.jsonc`, ensure the target repository includes `./scripts/run-tests.ps1`.
+If using `tests.tasks.template.jsonc`, ensure the target repository includes `.\scripts\run-tests.ps1`.
 
 ## How to use
 
@@ -75,8 +75,8 @@ Use this section when updating task templates or wrapper script parameters.
 Common task command examples:
 
 - Dry run with profile prompt:
-  - `./.github/scripts/sync-global-copilot-assets.ps1 -DryRun -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
+  - `.\.github\scripts\sync-global-copilot-assets.ps1 -DryRun -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
 - Apply with profile prompt:
-  - `./.github/scripts/sync-global-copilot-assets.ps1 -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
+  - `.\.github\scripts\sync-global-copilot-assets.ps1 -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
 
 For full wrapper-to-sync parameter flow, see [../../sync/README.md](../../sync/README.md).

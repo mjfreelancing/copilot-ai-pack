@@ -23,13 +23,13 @@ Implementation script: `.github/scripts/agent-env-diagnostics.ps1`.
 ## Commands
 
 - Report-only:
-  - `./.github/scripts/agent-env-diagnostics.ps1`
+  - `.\.github\scripts\agent-env-diagnostics.ps1`
 - Offer installs (interactive):
-  - `./.github/scripts/agent-env-diagnostics.ps1 -OfferInstall`
+  - `.\.github\scripts\agent-env-diagnostics.ps1 -OfferInstall`
 - Auto-install optional tools (opt-in):
-  - `./.github/scripts/agent-env-diagnostics.ps1 -AutoInstall`
+  - `.\.github\scripts\agent-env-diagnostics.ps1 -AutoInstall`
 - Dry run install preview:
-  - `./.github/scripts/agent-env-diagnostics.ps1 -OfferInstall -DryRun`
+  - `.\.github\scripts\agent-env-diagnostics.ps1 -OfferInstall -DryRun`
 
 ## Required result
 

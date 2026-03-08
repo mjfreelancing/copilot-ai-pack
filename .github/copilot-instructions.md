@@ -74,13 +74,13 @@ When changing templates:
 Primary test command from repository root:
 
 ```powershell
-./scripts/run-tests.ps1
+.\scripts\run-tests.ps1
 ```
 
 Targeted test command:
 
 ```powershell
-./scripts/run-tests.ps1 -Path ./sync/tests/sync-copilot-assets.Tests.ps1
+.\scripts\run-tests.ps1 -Path .\sync\tests\sync-copilot-assets.Tests.ps1
 ```
 
 Expected success summary includes zero failures.
@@ -91,6 +91,7 @@ Expected success summary includes zero failures.
 - Avoid unrelated refactors.
 - Prefer small, explicit, deterministic behavior.
 - Maintain naming clarity; avoid ambiguous shorthand.
+- Use Windows path delimiters (`\`) for PowerShell scripts and command examples in this repository.
 - Preserve the strict/fail-fast philosophy unless maintainers request a policy change.
 
 ## Typical future enhancements (safe direction)

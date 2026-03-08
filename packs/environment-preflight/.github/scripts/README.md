@@ -36,4 +36,4 @@ Provide discoverable entry points for local automation scripts.
 
 Run from repository root:
 
-- `./.github/scripts/agent-env-diagnostics.ps1`
+- `.\.github\scripts\agent-env-diagnostics.ps1`

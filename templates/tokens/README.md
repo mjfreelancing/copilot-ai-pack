@@ -11,5 +11,5 @@ This folder contains example token files used with sync token replacement.
 Pass a token file to the sync script:
 
 ```powershell
-./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests -TokenFile "./templates/tokens/default.tokens.example.json"
+.\sync\sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests -TokenFile ".\templates\tokens\default.tokens.example.json"
 ```
