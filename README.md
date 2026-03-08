@@ -100,20 +100,20 @@ Defined in `sync/pack-profiles.json`:
 
 ### Which profile should I pick?
 
-| If your repository is...                                    | Start with profile                | Why                                                                         |
-| ----------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------- |
-| C#/.NET backend, service, or library                        | `dotnet-csharp-tests`             | Adds baseline + C# + .NET unit test guidance + testing prompts + preflight. |
-| React + TypeScript frontend                                 | `react-typescript-client`         | Adds baseline + TypeScript + React + testing prompts + preflight.           |
-| ASP.NET Core API with Postgres/EF                           | `aspnetcore-api-postgres`         | Adds API + integration/unit test + Postgres/EF guidance in one profile.     |
+| If your repository is...                                     | Start with profile                | Why                                                                         |
+| ------------------------------------------------------------ | --------------------------------- | --------------------------------------------------------------------------- |
+| C#/.NET backend, service, or library                         | `dotnet-csharp-tests`             | Adds baseline + C# + .NET unit test guidance + testing prompts + preflight. |
+| React + TypeScript frontend                                  | `react-typescript-client`         | Adds baseline + TypeScript + React + testing prompts + preflight.           |
+| ASP.NET Core API with Postgres/EF                            | `aspnetcore-api-postgres`         | Adds API + integration/unit test + Postgres/EF guidance in one profile.     |
 | Full-stack React + ASP.NET Core + Postgres + Docker workflow | `fullstack-react-aspnet-postgres` | Includes frontend, backend, DB, and Docker-oriented guidance together.      |
 
 ### Profile to packs map
 
-| Profile | Included packs |
-| --- | --- |
-| `dotnet-csharp-tests` | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`, `prompts-testing`, `environment-preflight` |
-| `react-typescript-client` | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`, `environment-preflight` |
-| `aspnetcore-api-postgres` | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore`, `prompts-testing`, `environment-preflight` |
+| Profile                           | Included packs                                                                                                                                                                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dotnet-csharp-tests`             | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`, `prompts-testing`, `environment-preflight`                                                                                                                           |
+| `react-typescript-client`         | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`, `environment-preflight`                                                                                                                            |
+| `aspnetcore-api-postgres`         | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore`, `prompts-testing`, `environment-preflight`                                                      |
 | `fullstack-react-aspnet-postgres` | `language-agnostic-core`, `typescript-core`, `react-client`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `docker-compose`, `postgres-efcore`, `prompts-testing`, `environment-preflight` |
 
 ## Pack catalog (what each pack adds)

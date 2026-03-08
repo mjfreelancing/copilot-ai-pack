@@ -13,11 +13,11 @@ Copy-ready task snippets for consuming repositories that want a non-CLI workflow
 
 Use these profile names when a task or wrapper asks for `-AssetProfile`:
 
-| Use case                                                                        | Profile                           |
-| ------------------------------------------------------------------------------- | --------------------------------- |
-| C#/.NET backend, service, or library repositories                               | `dotnet-csharp-tests`             |
-| React + TypeScript frontend repositories                                        | `react-typescript-client`         |
-| ASP.NET Core API + Postgres/EF repositories                                     | `aspnetcore-api-postgres`         |
+| Use case                                                                                | Profile                           |
+| --------------------------------------------------------------------------------------- | --------------------------------- |
+| C#/.NET backend, service, or library repositories                                       | `dotnet-csharp-tests`             |
+| React + TypeScript frontend repositories                                                | `react-typescript-client`         |
+| ASP.NET Core API + Postgres/EF repositories                                             | `aspnetcore-api-postgres`         |
 | Full-stack React + ASP.NET Core + Postgres repositories (with Docker workflow guidance) | `fullstack-react-aspnet-postgres` |
 
 ---
@@ -26,14 +26,14 @@ For full profile-to-pack composition details, see [../../README.md](../../README
 
 ## What you get
 
-| Template | Tasks added | Profile used | Best for |
-| --- | --- | --- | --- |
-| `minimal.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun`, `sync-global-copilot-assets` | Wrapper default behavior | Teams that want one default profile and inferred assets path. |
-| `interactive.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-with-options`, `sync-global-copilot-assets-with-options` | User-selected via inputs | Teams that use multiple profiles or custom assets-repository locations. |
-| `backend-only.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-backend-only`, `sync-global-copilot-assets-backend-only` | `dotnet-csharp-tests` | API/service/library repositories that do not need frontend/docker/postgres packs. |
-| `frontend-only.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-frontend-only`, `sync-global-copilot-assets-frontend-only` | `react-typescript-client` | Frontend repositories that do not need backend/postgres/docker packs. |
-| `api-postgres-only.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-api-postgres-only`, `sync-global-copilot-assets-api-postgres-only` | `aspnetcore-api-postgres` | Backend API repositories with database concerns and no frontend pack requirements. |
-| `tests.tasks.template.jsonc` | `run-tests` | N/A | Repositories that include a PowerShell test runner script (`./scripts/run-tests.ps1`). |
+| Template                                 | Tasks added                                                                                           | Profile used              | Best for                                                                               |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------- |
+| `minimal.tasks.template.jsonc`           | `sync-global-copilot-assets-dryrun`, `sync-global-copilot-assets`                                     | Wrapper default behavior  | Teams that want one default profile and inferred assets path.                          |
+| `interactive.tasks.template.jsonc`       | `sync-global-copilot-assets-dryrun-with-options`, `sync-global-copilot-assets-with-options`           | User-selected via inputs  | Teams that use multiple profiles or custom assets-repository locations.                |
+| `backend-only.tasks.template.jsonc`      | `sync-global-copilot-assets-dryrun-backend-only`, `sync-global-copilot-assets-backend-only`           | `dotnet-csharp-tests`     | API/service/library repositories that do not need frontend/docker/postgres packs.      |
+| `frontend-only.tasks.template.jsonc`     | `sync-global-copilot-assets-dryrun-frontend-only`, `sync-global-copilot-assets-frontend-only`         | `react-typescript-client` | Frontend repositories that do not need backend/postgres/docker packs.                  |
+| `api-postgres-only.tasks.template.jsonc` | `sync-global-copilot-assets-dryrun-api-postgres-only`, `sync-global-copilot-assets-api-postgres-only` | `aspnetcore-api-postgres` | Backend API repositories with database concerns and no frontend pack requirements.     |
+| `tests.tasks.template.jsonc`             | `run-tests`                                                                                           | N/A                       | Repositories that include a PowerShell test runner script (`./scripts/run-tests.ps1`). |
 
 ## Prerequisite in target repository
 
@@ -65,12 +65,12 @@ If using `tests.tasks.template.jsonc`, ensure the target repository includes `./
 
 Use this section when updating task templates or wrapper script parameters.
 
-| Task template value              | Wrapper parameter    | Final sync parameter | Purpose                                            |
-| -------------------------------- | -------------------- | -------------------- | -------------------------------------------------- |
-| `${input:copilotAssetsProfile}`  | `-AssetProfile`      | `-AssetProfile`      | Select a profile-defined pack set.                 |
+| Task template value              | Wrapper parameter    | Final sync parameter | Purpose                                               |
+| -------------------------------- | -------------------- | -------------------- | ----------------------------------------------------- |
+| `${input:copilotAssetsProfile}`  | `-AssetProfile`      | `-AssetProfile`      | Select a profile-defined pack set.                    |
 | `${input:copilotAssetsRepoPath}` | `-AssetsRepoPath`    | _wrapper-only_       | Locate the assets repository where sync script lives. |
-| `-DryRun` in task command        | `-DryRun`            | `-DryRun`            | Preview selected files and targets without writes. |
-| Wrapper default target path      | _derived in wrapper_ | `-TargetRepo`        | Set target repository to workspace root.           |
+| `-DryRun` in task command        | `-DryRun`            | `-DryRun`            | Preview selected files and targets without writes.    |
+| Wrapper default target path      | _derived in wrapper_ | `-TargetRepo`        | Set target repository to workspace root.              |
 
 Common task command examples:
 

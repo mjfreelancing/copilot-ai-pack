@@ -92,18 +92,18 @@ Wrapper script template is provided in:
 
 This matrix shows how values flow from task templates to wrapper script parameters and then into the sync script.
 
-| Source                                           | Parameter / Input                | Maps to                                        | Notes                                                                         |
-| ------------------------------------------------ | -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------- |
-| Task template (`interactive`)                    | `${input:copilotAssetsProfile}`  | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Selects a named profile from `pack-profiles.json`.                            |
-| Task template (`interactive`)                    | `${input:copilotAssetsRepoPath}` | Wrapper `-AssetsRepoPath`                      | Wrapper resolves sync script location from this path.                         |
+| Source                                           | Parameter / Input                | Maps to                                        | Notes                                                                                   |
+| ------------------------------------------------ | -------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Task template (`interactive`)                    | `${input:copilotAssetsProfile}`  | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Selects a named profile from `pack-profiles.json`.                                      |
+| Task template (`interactive`)                    | `${input:copilotAssetsRepoPath}` | Wrapper `-AssetsRepoPath`                      | Wrapper resolves sync script location from this path.                                   |
 | Task template (`minimal`)                        | No explicit profile input        | Wrapper default behavior                       | Wrapper chooses profile/default behavior configured in the consuming repository script. |
-| Task templates (`backend/frontend/api-postgres`) | Hardcoded profile in command     | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Profile is pinned in the task command.                                        |
-| Wrapper                                          | `-Packs`                         | Sync `-Packs`                                  | Explicit pack names; merged with profile packs and de-duplicated.             |
-| Wrapper                                          | `-AssetProfile`                  | Sync `-AssetProfile`                           | Profile-based pack selection.                                                 |
-| Wrapper                                          | `-ProfilesPath`                  | Sync `-ProfilesPath`                           | Optional override path for profile JSON.                                      |
-| Wrapper                                          | `-TokenFile`                     | Sync `-TokenFile`                              | Enables `{{TOKEN}}` replacement for supported text files.                     |
-| Wrapper                                          | `-DryRun`                        | Sync `-DryRun`                                 | Generates plan output, writes no files.                                       |
-| Wrapper (internal)                               | Derived target repository path   | Sync `-TargetRepo`                             | Usually wrapper repository root (e.g., path resolved from script location).   |
+| Task templates (`backend/frontend/api-postgres`) | Hardcoded profile in command     | Wrapper `-AssetProfile` → Sync `-AssetProfile` | Profile is pinned in the task command.                                                  |
+| Wrapper                                          | `-Packs`                         | Sync `-Packs`                                  | Explicit pack names; merged with profile packs and de-duplicated.                       |
+| Wrapper                                          | `-AssetProfile`                  | Sync `-AssetProfile`                           | Profile-based pack selection.                                                           |
+| Wrapper                                          | `-ProfilesPath`                  | Sync `-ProfilesPath`                           | Optional override path for profile JSON.                                                |
+| Wrapper                                          | `-TokenFile`                     | Sync `-TokenFile`                              | Enables `{{TOKEN}}` replacement for supported text files.                               |
+| Wrapper                                          | `-DryRun`                        | Sync `-DryRun`                                 | Generates plan output, writes no files.                                                 |
+| Wrapper (internal)                               | Derived target repository path   | Sync `-TargetRepo`                             | Usually wrapper repository root (e.g., path resolved from script location).             |
 
 ### Required vs optional parameters
 
