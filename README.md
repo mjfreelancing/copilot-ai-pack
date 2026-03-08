@@ -2,101 +2,135 @@
 
 Reusable Copilot asset packs and sync tooling for quickly bootstrapping consistent AI-assisted workflows across repositories.
 
-## What this repository contains
+## Purpose
 
-This repository is a centralized asset source for:
+This repository is the source of reusable Copilot assets that you apply to another repository.
 
-- language/framework-specific Copilot instructions and prompts
-- test and preflight guidance packs
-- reusable pack profiles for common project types
-- sync automation to apply selected packs into another repository
-- copy-ready VS Code task templates for non-CLI usage
+It provides:
 
-## Repository structure
+- modular packs of instructions/prompts/skills
+- reusable profiles that bundle packs together
+- a sync script that copies selected assets into a target repository
+- wrapper and VS Code task templates for repeatable execution
 
-- `packs/` — modular asset packs to compose per project needs
-  - `language-agnostic-core/` — cross-language baseline guidance
-  - `csharp-core/` — core C# coding guidance and conventions
-  - `typescript-core/` — core TypeScript guidance and conventions
-  - `react-client/` — React client-side guidance and conventions
-  - `aspnetcore-api/` — ASP.NET Core API guidance and conventions
-  - `aspnetcore-integration-tests/` — ASP.NET Core integration testing guidance
-  - `dotnet-unit-tests/` — .NET unit testing guidance and best practices
-  - `postgres-efcore/` — PostgreSQL + EF Core guidance
-  - `docker-compose/` — Docker Compose-related guidance
-  - `prompts-testing/` — testing-focused prompt assets and guidance
-  - `environment-preflight/` — environment/tooling preflight checks
-- `sync/` — tooling and profile config
-  - `sync-copilot-assets.ps1` — sync script used to apply packs
-  - `pack-profiles.json` — reusable named profile definitions
-  - `README.md` — sync usage details
-- `templates/scripts/` — copy-ready wrapper script templates
-- `templates/tasks/` — copy-ready VS Code task templates and docs
+## Core concepts
 
-## First-time setup in a consuming repository
+- **Pack**: one modular asset set (for example `csharp-core` or `react-client`).
+- **Profile**: a named bundle of multiple packs (for example `aspnetcore-api-postgres`).
+- **Sync**: the process of copying selected pack assets into a target repository.
 
-Use this flow when you want to apply these assets to another repository with minimal PowerShell knowledge.
+You can select packs directly, or select one profile that expands to multiple packs.
 
-1. Copy wrapper script template into the target repository:
+## Choose your sync input
 
-- from `templates/scripts/sync-global-copilot-assets.ps1.template`
-- to `.github/scripts/sync-global-copilot-assets.ps1`
+Use **one** of these selection models:
 
+- **Profile-based selection**: choose one profile that maps to multiple packs.
+- **Pack-based selection**: provide explicit pack names.
+
+## Recommended first run (consuming repository flow)
+
+Use this flow in the repository that should receive Copilot assets.
+
+1. Copy `templates/scripts/sync-global-copilot-assets.ps1.template` into the target repository as `.github/scripts/sync-global-copilot-assets.ps1`.
 2. Copy one task template into target repository `.vscode/tasks.json`:
+   - use `templates/tasks/minimal.tasks.template.jsonc` for one default profile and fixed assets path
+   - use `templates/tasks/interactive.tasks.template.jsonc` for runtime profile/path prompts
 
-- use `templates/tasks/minimal.tasks.template.jsonc` for a simple default flow
-- or use `templates/tasks/interactive.tasks.template.jsonc` for profile/path prompts
-
-3. Run task `sync-global-copilot-assets-dryrun` first.
+3. Run task `sync-global-copilot-assets-dryrun`.
 4. Review planned file writes and verify there are no collisions or path mistakes.
-5. Run the apply task (`sync-global-copilot-assets`) after dry-run looks correct.
+5. Run task `sync-global-copilot-assets` to apply.
 
-See detailed setup docs:
+Detailed setup docs:
 
 - `templates/scripts/README.md`
 - `templates/tasks/README.md`
 - `sync/README.md`
 
-## Pack root README policy
+## Direct CLI usage (alternative)
 
-Pack directories under `packs/*/` should not contain root-level `README.md` files.
+Use this when running sync directly from this assets repository.
 
-Reason:
-
-- The sync script copies pack contents into target repositories preserving relative paths from each pack root.
-- Root-level files with the same name (especially `README.md`) can collide across packs and overwrite content in the target repository.
-- Consolidating pack intent in this root README avoids duplicate documentation and reduces sync risk.
-
-For pack details, use the assets under each pack’s `.github/...` structure and the pack catalog in this file.
-
-## Quick start
-
-### Dry run (recommended first)
+Dry run with explicit packs:
 
 ```powershell
 ./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests -DryRun
 ```
 
-### Apply selected packs
+Apply with explicit packs:
 
 ```powershell
 ./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -Packs csharp-core,dotnet-unit-tests
 ```
 
-### Apply using a profile
+Apply with a profile:
 
 ```powershell
 ./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests
 ```
 
+## End-to-end example (before/after)
+
+Example scenario:
+
+- Target repository: `C:\Work\orders-api`
+- Selected profile: `aspnetcore-api-postgres`
+- Commands (dry run first, then apply):
+
+```powershell
+# Dry Run
+./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres -DryRun
+
+# Apply
+./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Work\orders-api" -AssetProfile aspnetcore-api-postgres
+```
+
+Before sync, target repository may not contain Copilot assets:
+
+```text
+orders-api/
+  src/
+  tests/
+  README.md
+```
+
+After apply run (without `-DryRun`), target repository includes copied assets such as:
+
+```text
+orders-api/
+  .github/
+    instructions/
+      language-agnostic-core.instructions.md
+      csharp.instructions.md
+      aspnetcore-api.instructions.md
+      aspnetcore.integration-tests.instructions.md
+      dotnet.tests.instructions.md
+      postgres-efcore.instructions.md
+    prompts/
+      repo_tests.prompt.md
+      dotnet_unit_test.prompt.md
+      dotnet_integration_test.prompt.md
+      typescript_tests.prompt.md
+    scripts/
+      README.md
+      agent-env-diagnostics.ps1
+    skills/
+      README.md
+      environment-preflight/
+        SKILL.md
+  src/
+  tests/
+  README.md
+```
+
+Notes:
+
+- Exact files come from selected packs and each pack's `pack.manifest.json`.
+- Existing non-Copilot project files are unchanged unless a destination-path collision is introduced (which fails sync).
+
 ## Available profiles
 
-Defined in `sync/pack-profiles.json`:
-
-- `dotnet-csharp-tests`
-- `react-typescript-client`
-- `aspnetcore-api-postgres`
-- `fullstack-react-aspnet-postgres`
+`sync/pack-profiles.json` defines the available profiles. Use `-AssetProfile` to apply one.
 
 ### Which profile should I pick?
 
@@ -134,13 +168,28 @@ Quick orientation:
 - `prompts-testing`: reusable prompts for generating/running tests.
 - `environment-preflight`: pre-session environment diagnostics skill and script.
 
-## Typical workflow for consuming repositories
+## Repository structure
 
-1. Add a project-local wrapper script that calls `sync/sync-copilot-assets.ps1`.
-2. Add VS Code tasks using templates in `templates/tasks/`.
-3. Run dry-run tasks first, then apply.
+- `packs/` — modular asset packs to compose per project needs
+  - `language-agnostic-core/` — cross-language baseline guidance
+  - `csharp-core/` — core C# coding guidance and conventions
+  - `typescript-core/` — core TypeScript guidance and conventions
+  - `react-client/` — React client-side guidance and conventions
+  - `aspnetcore-api/` — ASP.NET Core API guidance and conventions
+  - `aspnetcore-integration-tests/` — ASP.NET Core integration testing guidance
+  - `dotnet-unit-tests/` — .NET unit testing guidance and best practices
+  - `postgres-efcore/` — PostgreSQL + EF Core guidance
+  - `docker-compose/` — Docker Compose-related guidance
+  - `prompts-testing/` — testing-focused prompt assets and guidance
+  - `environment-preflight/` — environment/tooling preflight checks
+- `sync/` — tooling and profile config
+  - `sync-copilot-assets.ps1` — sync script used to apply packs
+  - `pack-profiles.json` — reusable named profile definitions
+  - `README.md` — sync usage details
+- `templates/scripts/` — copy-ready wrapper script templates
+- `templates/tasks/` — copy-ready VS Code task templates and docs
 
-## Current defaults
+## Behavior guarantees
 
 This repository uses strict behavior to reduce ambiguity and risk.
 
@@ -148,6 +197,57 @@ This repository uses strict behavior to reduce ambiguity and risk.
 - **Collision handling is strict:** sync fails fast when selected packs map multiple files to the same destination path.
 - **Manifest usage is strict:** each selected pack must define `pack.manifest.json` with valid include/exclude patterns.
 - **Pack docs are centralized:** `packs/*/README.md` files are intentionally not used to avoid sync collisions.
+
+## Common failure scenarios
+
+### Unknown profile name
+
+Symptoms:
+
+- terminating validation error indicating the specified `-AssetProfile` is not found
+- output lists available profile names from `sync/pack-profiles.json`
+
+Fix:
+
+- confirm spelling/casing of `-AssetProfile`
+- open `sync/pack-profiles.json` and choose a valid profile
+- re-run with `-DryRun` first
+
+### Destination path collision across selected packs
+
+Symptoms:
+
+- terminating collision error listing the conflicting destination path(s)
+- no files are written
+
+Fix:
+
+- reduce or change selected packs/profile
+- inspect included files in pack manifests to identify overlap
+- re-run `-DryRun` until plan is collision-free, then apply
+
+### Missing or invalid `pack.manifest.json`
+
+Symptoms:
+
+- terminating validation error indicating missing manifest or invalid schema
+- often references required `include` array and optional `exclude` array format
+
+Fix:
+
+- ensure each selected pack has `pack.manifest.json` at pack root
+- ensure `include` is present and both `include`/`exclude` are arrays when provided
+- re-run with `-DryRun` after correcting manifest
+
+## Pack root README policy
+
+Pack directories under `packs/*/` should not contain root-level `README.md` files.
+
+Reason:
+
+- The sync script copies pack contents into target repositories preserving relative paths from each pack root.
+- Root-level files with the same name (especially `README.md`) can collide across packs and overwrite content in the target repository.
+- Consolidating pack intent in this root README avoids duplicate documentation and reduces sync risk.
 
 ## Testing
 
