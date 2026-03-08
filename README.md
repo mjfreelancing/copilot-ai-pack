@@ -258,24 +258,22 @@ Reason:
 
 Note: Windows includes an inbox Pester 3.x for Windows PowerShell 5.1, but this repository should use modern Pester 5 in `pwsh`.
 
-### Install prerequisites
+### Ensure prerequisites (recommended)
 
 From repository root in `pwsh`:
 
 ```powershell
-# Ensure NuGet provider is available
-if (-not (Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
-  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
-}
+./scripts/ensure-test-prereqs.ps1
+```
 
-# Install Pester for current user
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Install-Module -Name Pester -Scope CurrentUser -Force -SkipPublisherCheck -AllowClobber
+This command checks prerequisites and installs only what is missing. If everything is already available, it logs that no installation is needed.
 
-# Verify highest available version
-Get-Module -ListAvailable -Name Pester |
-  Sort-Object Version -Descending |
-  Select-Object -First 3 Name,Version,Path
+If PSGallery trust prompts block installation in non-interactive environments:
+
+From repository root in `pwsh`:
+
+```powershell
+./scripts/ensure-test-prereqs.ps1 -TrustPSGallery
 ```
 
 ### Run tests
