@@ -249,7 +249,9 @@ Reason:
 - Root-level files with the same name (especially `README.md`) can collide across packs and overwrite content in the target repository.
 - Consolidating pack intent in this root README avoids duplicate documentation and reduces sync risk.
 
-## Testing
+## Repository self-tests
+
+These tests validate the sync tooling and behavior in this `copilot-ai-pack` repository itself (not tests for a consuming project).
 
 ### Prerequisites
 
@@ -278,7 +280,7 @@ From repository root in `pwsh`:
 
 ### Run tests
 
-Run all sync tests:
+Run all repository sync tests:
 
 ```powershell
 ./scripts/run-tests.ps1
