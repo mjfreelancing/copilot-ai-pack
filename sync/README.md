@@ -27,6 +27,19 @@ Apply with profile:
 
 Token replacement can be enabled via `-TokenFile` (JSON key-value pairs where keys map to `{{TOKEN}}` placeholders).
 
+## Collision safety
+
+The sync script performs destination-path collision detection before writing files.
+
+- If two or more selected pack files map to the same target path, sync fails fast.
+- No files are written when a collision is detected.
+- Dry-run and apply use the same planning logic.
+
+## Input validation
+
+- If no packs are selected (directly or via profile), sync fails with a terminating error.
+- The error lists available pack names and available profile names.
+
 ## Non-CLI usage model
 
 This repository is designed to be consumed from project-local wrappers/tasks.

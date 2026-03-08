@@ -25,6 +25,8 @@ if (-not (Test-Path $TargetRepo)) {
     throw "TargetRepo does not exist: $TargetRepo"
 }
 
+$resolvedTargetRoot = (Resolve-Path $TargetRepo).Path.TrimEnd('\\')
+
 if (-not (Test-Path $packsRoot)) {
     throw "Packs directory not found: $packsRoot"
 }
@@ -54,12 +56,27 @@ function Resolve-Tokens {
     $resolved = $Text
 
     foreach ($entry in $Tokens.GetEnumerator()) {
-        $token = "{{{0}}}" -f $entry.Key
+        $token = '{{' + $entry.Key + '}}'
         $value = [string]$entry.Value
         $resolved = $resolved.Replace($token, $value)
     }
 
     return $resolved
+}
+
+function Get-RelativeTargetPath {
+    param(
+        [string]$FullTargetPath,
+        [string]$ResolvedTargetRoot
+    )
+
+    $prefix = $ResolvedTargetRoot + '\\'
+
+    if ($FullTargetPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        return $FullTargetPath.Substring($prefix.Length)
+    }
+
+    return $FullTargetPath
 }
 
 $profileMap = @{}
@@ -123,12 +140,15 @@ if ($Packs) {
 }
 
 if ($selectedPacks.Count -eq 0) {
-    Write-Host "No packs selected."
-    Write-Host "Available packs: $($availablePacks -join ', ')"
+    $errorLines = New-Object System.Collections.Generic.List[string]
+    $errorLines.Add('No packs selected.') | Out-Null
+    $errorLines.Add("Available packs: $($availablePacks -join ', ')") | Out-Null
+
     if ($profileMap.Count -gt 0) {
-        Write-Host "Available profiles: $($profileMap.Keys -join ', ')"
+        $errorLines.Add("Available profiles: $($profileMap.Keys -join ', ')") | Out-Null
     }
-    exit 1
+
+    throw ($errorLines -join [Environment]::NewLine)
 }
 
 foreach ($packName in $selectedPacks) {
@@ -137,7 +157,9 @@ foreach ($packName in $selectedPacks) {
     }
 }
 
-$changes = New-Object System.Collections.Generic.List[object]
+$syncPlan = New-Object System.Collections.Generic.List[object]
+$plannedByTarget = @{}
+$collisionMap = @{}
 
 foreach ($packName in $selectedPacks) {
     $packRoot = Join-Path $packsRoot $packName
@@ -147,48 +169,103 @@ foreach ($packName in $selectedPacks) {
     foreach ($file in $files) {
         $relativePath = $file.FullName.Substring($resolvedPackRoot.Length).TrimStart('\\')
         $destination = Join-Path $TargetRepo $relativePath
-        $destinationDir = Split-Path -Parent $destination
-
         $isTextFile = $file.Extension -in @('.md', '.txt', '.json', '.yml', '.yaml', '.ps1')
+        $targetKey = $destination.ToLowerInvariant()
 
-        if ($DryRun) {
-            $changes.Add([PSCustomObject]@{
-                Mode = 'DRYRUN'
-                Pack = $packName
-                Source = $file.FullName
-                Target = $destination
-            }) | Out-Null
-            continue
-        }
-
-        if (-not (Test-Path $destinationDir)) {
-            New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
-        }
-
-        if ($isTextFile -and $tokenMap.Count -gt 0) {
-            $content = Get-Content -Raw -Path $file.FullName
-            $resolved = Resolve-Tokens -Text $content -Tokens $tokenMap
-            Set-Content -Path $destination -Value $resolved -NoNewline
-        }
-        else {
-            Copy-Item -Path $file.FullName -Destination $destination -Force
-        }
-
-        $changes.Add([PSCustomObject]@{
-            Mode = 'APPLY'
+        $planEntry = [PSCustomObject]@{
             Pack = $packName
             Source = $file.FullName
             Target = $destination
-        }) | Out-Null
+            IsTextFile = $isTextFile
+        }
+
+        $syncPlan.Add($planEntry) | Out-Null
+
+        if ($plannedByTarget.ContainsKey($targetKey)) {
+            if (-not $collisionMap.ContainsKey($targetKey)) {
+                $collisionEntries = New-Object System.Collections.Generic.List[object]
+                $collisionEntries.Add($plannedByTarget[$targetKey]) | Out-Null
+                $collisionMap[$targetKey] = $collisionEntries
+            }
+
+            $collisionMap[$targetKey].Add($planEntry) | Out-Null
+        }
+        else {
+            $plannedByTarget[$targetKey] = $planEntry
+        }
     }
 }
 
+$collisionCount = $collisionMap.Count
+
+if ($collisionCount -gt 0) {
+    $maxCollisionsToShow = 20
+    $collisionMessages = New-Object System.Collections.Generic.List[string]
+
+    foreach ($collisionKey in ($collisionMap.Keys | Sort-Object)) {
+        $entries = $collisionMap[$collisionKey]
+        $targetRelative = Get-RelativeTargetPath -FullTargetPath $entries[0].Target -ResolvedTargetRoot $resolvedTargetRoot
+        $sources = $entries | Select-Object -ExpandProperty Source | Sort-Object -Unique
+        $sourceLines = ($sources | ForEach-Object { "    - $_" }) -join [Environment]::NewLine
+        $collisionMessages.Add("Collision at target '$targetRelative':$([Environment]::NewLine)$sourceLines") | Out-Null
+
+        if ($collisionMessages.Count -ge $maxCollisionsToShow) {
+            break
+        }
+    }
+
+    $additionalMessage = ''
+
+    if ($collisionCount -gt $maxCollisionsToShow) {
+        $remainingCount = $collisionCount - $maxCollisionsToShow
+        $additionalMessage = "`n`n...and $remainingCount additional collision(s)."
+    }
+
+    throw "Detected destination path collisions across selected packs. No files were written.`n`n$($collisionMessages -join "`n`n")$additionalMessage"
+}
+
+$changes = New-Object System.Collections.Generic.List[object]
+
+foreach ($entry in $syncPlan) {
+    if ($DryRun) {
+        $changes.Add([PSCustomObject]@{
+            Mode = 'DRYRUN'
+            Pack = $entry.Pack
+            Source = $entry.Source
+            Target = $entry.Target
+        }) | Out-Null
+        continue
+    }
+
+    $destinationDir = Split-Path -Parent $entry.Target
+
+    if (-not (Test-Path $destinationDir)) {
+        New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
+    }
+
+    if ($entry.IsTextFile -and $tokenMap.Count -gt 0) {
+        $content = Get-Content -Raw -Path $entry.Source
+        $resolved = Resolve-Tokens -Text $content -Tokens $tokenMap
+        Set-Content -Path $entry.Target -Value $resolved -NoNewline
+    }
+    else {
+        Copy-Item -Path $entry.Source -Destination $entry.Target -Force
+    }
+
+    $changes.Add([PSCustomObject]@{
+        Mode = 'APPLY'
+        Pack = $entry.Pack
+        Source = $entry.Source
+        Target = $entry.Target
+    }) | Out-Null
+}
+
 if ($changes.Count -eq 0) {
-    Write-Host 'No files matched the manifest.'
+    Write-Host 'No files selected for sync.'
     exit 0
 }
 
-$changes | Select-Object Mode, Pack, @{Name='Target'; Expression={ $_.Target.Replace((Resolve-Path $TargetRepo).Path.TrimEnd('\\') + '\\','') }} |
+$changes | Select-Object Mode, Pack, @{Name='Target'; Expression={ Get-RelativeTargetPath -FullTargetPath $_.Target -ResolvedTargetRoot $resolvedTargetRoot }} |
     Format-Table -AutoSize
 
 Write-Host "Processed $($changes.Count) file(s)."

@@ -38,6 +38,12 @@ Copy-ready task snippets for consuming repositories that want a non-CLI workflow
   - Uses profile `aspnetcore-api-postgres` (C# + ASP.NET Core API + integration/unit tests + Postgres/EF + testing prompts + preflight).
   - Best for backend API repos with database concerns and no frontend pack requirements.
 
+- `tests.tasks.template.jsonc`
+  - Adds one task:
+    - `run-tests`
+  - Runs `./scripts/run-tests.ps1` from workspace root.
+  - Best for repos that include a PowerShell test runner script.
+
 ## Prerequisite in target repo
 
 Create a project-local wrapper script (for example `.github/scripts/sync-global-copilot-assets.ps1`) that calls:
@@ -45,6 +51,8 @@ Create a project-local wrapper script (for example `.github/scripts/sync-global-
 - `../mjf-copilot-assets/sync/sync-copilot-assets.ps1` (or your chosen path)
 
 The task templates intentionally call the local wrapper, not the global script directly.
+
+If using `tests.tasks.template.jsonc`, ensure the target repo includes `./scripts/run-tests.ps1`.
 
 ## How to use
 

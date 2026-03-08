@@ -30,4 +30,6 @@ Or use profile-based composition from `sync/pack-profiles.json`:
 ./sync/sync-copilot-assets.ps1 -TargetRepo "C:\Path\To\Repo" -AssetProfile dotnet-csharp-tests -DryRun
 ```
 
-See each pack subfolder README for its intent.
+Pack root folders intentionally do not include `README.md` files to avoid destination-path collisions during sync.
+
+Use the root catalog in `README.md` for pack intent summaries, and inspect each pack’s `.github/...` assets for implementation details.
