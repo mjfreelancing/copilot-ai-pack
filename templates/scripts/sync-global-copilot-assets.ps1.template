@@ -1,0 +1,57 @@
+[CmdletBinding()]
+param(
+    [string[]]$Packs,
+    [string]$AssetProfile,
+    [string]$AssetsRepoPath,
+    [string]$ProfilesPath,
+    [string]$TokenFile,
+    [switch]$DryRun
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$targetRepo = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
+
+if ([string]::IsNullOrWhiteSpace($AssetsRepoPath)) {
+    $AssetsRepoPath = Join-Path $targetRepo '../mjf-copilot-assets'
+}
+
+$resolvedAssetsRepoPath = if ([System.IO.Path]::IsPathRooted($AssetsRepoPath)) {
+    (Resolve-Path $AssetsRepoPath).Path
+}
+else {
+    (Resolve-Path (Join-Path $targetRepo $AssetsRepoPath)).Path
+}
+
+$syncScriptPath = Join-Path $resolvedAssetsRepoPath 'sync/sync-copilot-assets.ps1'
+
+if (-not (Test-Path $syncScriptPath)) {
+    throw "Sync script not found at: $syncScriptPath"
+}
+
+$syncArgs = @{
+    TargetRepo = $targetRepo
+}
+
+if ($Packs -and $Packs.Count -gt 0) {
+    $syncArgs.Packs = $Packs
+}
+
+if (-not [string]::IsNullOrWhiteSpace($AssetProfile)) {
+    $syncArgs.AssetProfile = $AssetProfile
+}
+
+if (-not [string]::IsNullOrWhiteSpace($ProfilesPath)) {
+    $syncArgs.ProfilesPath = $ProfilesPath
+}
+
+if (-not [string]::IsNullOrWhiteSpace($TokenFile)) {
+    $syncArgs.TokenFile = $TokenFile
+}
+
+if ($DryRun) {
+    $syncArgs.DryRun = $true
+}
+
+& $syncScriptPath @syncArgs

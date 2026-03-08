@@ -30,6 +30,7 @@ This repo is a centralized asset source for:
   - `sync-copilot-assets.ps1` — sync script used to apply packs
   - `pack-profiles.json` — reusable named profile definitions
   - `README.md` — sync usage details
+- `templates/scripts/` — copy-ready wrapper script templates
 - `templates/tasks/` — copy-ready VS Code task templates and docs
 
 ## Pack root README policy
@@ -85,6 +86,7 @@ This repository uses strict behavior to reduce ambiguity and risk.
 
 - **Token format is strict:** token replacement supports `{{TOKEN}}` placeholders only.
 - **Collision handling is strict:** sync fails fast when selected packs map multiple files to the same destination path.
+- **Manifest usage is strict:** each selected pack must define `pack.manifest.json` with valid include/exclude patterns.
 - **Pack docs are centralized:** `packs/*/README.md` files are intentionally not used to avoid sync collisions.
 
 ## Testing
@@ -145,4 +147,5 @@ If failures occur:
 ## Related docs
 
 - Sync details: `sync/README.md`
+- Script templates: `templates/scripts/README.md`
 - Task templates: `templates/tasks/README.md`

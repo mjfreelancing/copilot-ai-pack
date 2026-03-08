@@ -46,9 +46,11 @@ Copy-ready task snippets for consuming repositories that want a non-CLI workflow
 
 ## Prerequisite in target repo
 
-Create a project-local wrapper script (for example `.github/scripts/sync-global-copilot-assets.ps1`) that calls:
+Create a project-local wrapper script (for example `.github/scripts/sync-global-copilot-assets.ps1`).
 
-- `../mjf-copilot-assets/sync/sync-copilot-assets.ps1` (or your chosen path)
+Use this template from the assets repo:
+
+- `templates/scripts/sync-global-copilot-assets.ps1.template`
 
 The task templates intentionally call the local wrapper, not the global script directly.
 
@@ -66,3 +68,23 @@ If using `tests.tasks.template.jsonc`, ensure the target repo includes `./script
 - Templates are examples; adjust labels and defaults to your team terminology.
 - Prefer running dry-run task first.
 - Keep parameter name `-AssetProfile` (not `-Profile`).
+
+## Parameter mapping quick reference
+
+Use this section when updating task templates or wrapper script parameters.
+
+| Task template value              | Wrapper parameter    | Final sync parameter | Purpose                                            |
+| -------------------------------- | -------------------- | -------------------- | -------------------------------------------------- |
+| `${input:copilotAssetsProfile}`  | `-AssetProfile`      | `-AssetProfile`      | Select a profile-defined pack set.                 |
+| `${input:copilotAssetsRepoPath}` | `-AssetsRepoPath`    | _wrapper-only_       | Locate the assets repo where sync script lives.    |
+| `-DryRun` in task command        | `-DryRun`            | `-DryRun`            | Preview selected files and targets without writes. |
+| Wrapper default target path      | _derived in wrapper_ | `-TargetRepo`        | Set target repo to workspace root.                 |
+
+Common task command examples:
+
+- Dry run with profile prompt:
+  - `./.github/scripts/sync-global-copilot-assets.ps1 -DryRun -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
+- Apply with profile prompt:
+  - `./.github/scripts/sync-global-copilot-assets.ps1 -AssetProfile "${input:copilotAssetsProfile}" -AssetsRepoPath "${input:copilotAssetsRepoPath}"`
+
+For full wrapper-to-sync parameter flow, see [../../sync/README.md](../../sync/README.md).

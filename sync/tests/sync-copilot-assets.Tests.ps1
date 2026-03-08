@@ -2,6 +2,7 @@
 #
 # Each test uses a temporary folder to avoid mutating real repository files.
 Describe 'sync-copilot-assets behavior' {
+
     # Non-happy path: two packs produce the same destination file.
     # Expected: script throws and writes zero files.
     It 'fails fast when two selected packs map to the same target path and writes no files' {
@@ -29,6 +30,9 @@ Describe 'sync-copilot-assets behavior' {
 
             Set-Content -Path (Join-Path $packAFileDir 'shared.instructions.md') -Value 'A' -NoNewline
             Set-Content -Path (Join-Path $packBFileDir 'shared.instructions.md') -Value 'B' -NoNewline
+
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
 
             # Act: run script and capture thrown error text for assertions.
             $errorMessage = $null
@@ -81,6 +85,9 @@ Describe 'sync-copilot-assets behavior' {
 
             Set-Content -Path (Join-Path $packAFileDir 'alpha.instructions.md') -Value 'Root={{SERVER_ROOT}}' -NoNewline
             Set-Content -Path (Join-Path $packBFileDir 'beta.prompt.md') -Value 'Prompt file' -NoNewline
+
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
 
             $tokenFilePath = Join-Path $assetRepo 'tokens.json'
             @{
@@ -147,6 +154,9 @@ Describe 'sync-copilot-assets behavior' {
             Set-Content -Path (Join-Path $packBInstructions 'unique-b.instructions.md') -Value 'B-unique' -NoNewline
             Set-Content -Path (Join-Path $packBPrompts 'only-b.prompt.md') -Value 'B-prompt' -NoNewline
 
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
+
             # Act + Assert: throw on collision, then verify write count stays zero.
             { & $testScript -TargetRepo $targetRepo -Packs @('pack-a', 'pack-b') } | Should -Throw
 
@@ -185,6 +195,9 @@ Describe 'sync-copilot-assets behavior' {
 
             Set-Content -Path (Join-Path $packAFileDir 'Case.instructions.md') -Value 'A' -NoNewline
             Set-Content -Path (Join-Path $packBFileDir 'case.instructions.md') -Value 'B' -NoNewline
+
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
 
             $errorMessage = $null
 
@@ -273,6 +286,38 @@ Describe 'sync-copilot-assets behavior' {
         }
     }
 
+    # Input validation: each selected pack must contain pack.manifest.json.
+    It 'fails when selected pack manifest file is missing' {
+        $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("copilot-assets-test-{0}" -f ([System.Guid]::NewGuid().ToString('N')))
+        $assetRepo = Join-Path $tempRoot 'asset-repo'
+        $syncDir = Join-Path $assetRepo 'sync'
+        $packsDir = Join-Path $assetRepo 'packs'
+        $targetRepo = Join-Path $tempRoot 'target-repo'
+
+        try {
+            New-Item -ItemType Directory -Path $syncDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $packsDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $targetRepo -Force | Out-Null
+
+            $sourceScript = Join-Path $PSScriptRoot '..\sync-copilot-assets.ps1'
+            $testScript = Join-Path $syncDir 'sync-copilot-assets.ps1'
+            Copy-Item -Path $sourceScript -Destination $testScript -Force
+
+            $packAFileDir = Join-Path $packsDir 'pack-a\.github\instructions'
+            New-Item -ItemType Directory -Path $packAFileDir -Force | Out-Null
+            Set-Content -Path (Join-Path $packAFileDir 'alpha.instructions.md') -Value 'alpha' -NoNewline
+
+            { & $testScript -TargetRepo $targetRepo -Packs @('pack-a') } | Should -Throw -ExpectedMessage "*Manifest file not found for pack 'pack-a'*"
+
+            (Get-ChildItem -Path $targetRepo -Recurse -File | Measure-Object).Count | Should -Be 0
+        }
+        finally {
+            if (Test-Path $tempRoot) {
+                Remove-Item -Path $tempRoot -Recurse -Force
+            }
+        }
+    }
+
     # Input validation: every selected pack name must exist under /packs.
     It 'fails when a selected pack does not exist' {
         $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("copilot-assets-test-{0}" -f ([System.Guid]::NewGuid().ToString('N')))
@@ -334,6 +379,117 @@ Describe 'sync-copilot-assets behavior' {
             { & $testScript -TargetRepo $targetRepo -AssetProfile missing-profile -ProfilesPath $profilesPath } | Should -Throw -ExpectedMessage "*Profile 'missing-profile' not found*"
 
             (Get-ChildItem -Path $targetRepo -Recurse -File | Measure-Object).Count | Should -Be 0
+        }
+        finally {
+            if (Test-Path $tempRoot) {
+                Remove-Item -Path $tempRoot -Recurse -Force
+            }
+        }
+    }
+
+    # Profile behavior: profile packs + explicit -Packs values merge and de-duplicate.
+    # Expected: duplicate pack names are processed once and do not trigger self-collision.
+    It 'merges profile and explicit packs with de-duplication' {
+        $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("copilot-assets-test-{0}" -f ([System.Guid]::NewGuid().ToString('N')))
+        $assetRepo = Join-Path $tempRoot 'asset-repo'
+        $syncDir = Join-Path $assetRepo 'sync'
+        $packsDir = Join-Path $assetRepo 'packs'
+        $targetRepo = Join-Path $tempRoot 'target-repo'
+
+        try {
+            New-Item -ItemType Directory -Path $syncDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $packsDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $targetRepo -Force | Out-Null
+
+            $sourceScript = Join-Path $PSScriptRoot '..\sync-copilot-assets.ps1'
+            $testScript = Join-Path $syncDir 'sync-copilot-assets.ps1'
+            Copy-Item -Path $sourceScript -Destination $testScript -Force
+
+            $packAFileDir = Join-Path $packsDir 'pack-a\.github\instructions'
+            $packBFileDir = Join-Path $packsDir 'pack-b\.github\prompts'
+
+            New-Item -ItemType Directory -Path $packAFileDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $packBFileDir -Force | Out-Null
+
+            Set-Content -Path (Join-Path $packAFileDir 'alpha.instructions.md') -Value 'A' -NoNewline
+            Set-Content -Path (Join-Path $packBFileDir 'beta.prompt.md') -Value 'B' -NoNewline
+
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
+
+            $profilesPath = Join-Path $syncDir 'pack-profiles.json'
+            @{
+                profiles = @{
+                    profile1 = @('pack-a', 'pack-a', 'pack-b')
+                }
+            } | ConvertTo-Json -Depth 5 | Set-Content -Path $profilesPath -NoNewline
+
+            & $testScript -TargetRepo $targetRepo -AssetProfile profile1 -ProfilesPath $profilesPath -Packs @('pack-a')
+
+            $targetAlpha = Join-Path $targetRepo '.github\instructions\alpha.instructions.md'
+            $targetBeta = Join-Path $targetRepo '.github\prompts\beta.prompt.md'
+
+            (Test-Path $targetAlpha) | Should -BeTrue
+            (Test-Path $targetBeta) | Should -BeTrue
+            (Get-ChildItem -Path $targetRepo -Recurse -File | Measure-Object).Count | Should -Be 2
+        }
+        finally {
+            if (Test-Path $tempRoot) {
+                Remove-Item -Path $tempRoot -Recurse -Force
+            }
+        }
+    }
+
+    # Parity behavior: dry-run and apply should produce the same target set.
+    # Expected: dry-run writes nothing, apply writes exactly the dry-run planned targets.
+    It 'keeps dry-run and apply target sets in parity' {
+        $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("copilot-assets-test-{0}" -f ([System.Guid]::NewGuid().ToString('N')))
+        $assetRepo = Join-Path $tempRoot 'asset-repo'
+        $syncDir = Join-Path $assetRepo 'sync'
+        $packsDir = Join-Path $assetRepo 'packs'
+        $targetRepo = Join-Path $tempRoot 'target-repo'
+
+        try {
+            New-Item -ItemType Directory -Path $syncDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $packsDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $targetRepo -Force | Out-Null
+
+            $sourceScript = Join-Path $PSScriptRoot '..\sync-copilot-assets.ps1'
+            $testScript = Join-Path $syncDir 'sync-copilot-assets.ps1'
+            Copy-Item -Path $sourceScript -Destination $testScript -Force
+
+            $packAFileDir = Join-Path $packsDir 'pack-a\.github\instructions'
+            $packBFileDir = Join-Path $packsDir 'pack-b\.github\prompts'
+
+            New-Item -ItemType Directory -Path $packAFileDir -Force | Out-Null
+            New-Item -ItemType Directory -Path $packBFileDir -Force | Out-Null
+
+            Set-Content -Path (Join-Path $packAFileDir 'alpha.instructions.md') -Value 'A' -NoNewline
+            Set-Content -Path (Join-Path $packBFileDir 'beta.prompt.md') -Value 'B' -NoNewline
+
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-a\pack.manifest.json') -NoNewline
+            @{ include = @('.github/**'); exclude = @() } | ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $packsDir 'pack-b\pack.manifest.json') -NoNewline
+
+            & $testScript -TargetRepo $targetRepo -Packs @('pack-a', 'pack-b') -DryRun | Out-Null
+
+            (Get-ChildItem -Path $targetRepo -Recurse -File | Measure-Object).Count | Should -Be 0
+
+            & $testScript -TargetRepo $targetRepo -Packs @('pack-a', 'pack-b') | Out-Null
+
+            $expectedTargets = @(
+                '.github\instructions\alpha.instructions.md',
+                '.github\prompts\beta.prompt.md'
+            ) | Sort-Object
+
+            $actualTargets = @(
+                Get-ChildItem -Path $targetRepo -Recurse -File |
+                    ForEach-Object {
+                        $_.FullName.Substring($targetRepo.Length).TrimStart('\\')
+                    }
+            ) | Sort-Object
+
+            $actualTargets.Count | Should -Be $expectedTargets.Count
+            ($actualTargets -join '|') | Should -Be ($expectedTargets -join '|')
         }
         finally {
             if (Test-Path $tempRoot) {

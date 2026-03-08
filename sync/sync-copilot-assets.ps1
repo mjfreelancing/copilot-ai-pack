@@ -31,16 +31,134 @@ if (-not (Test-Path $packsRoot)) {
     throw "Packs directory not found: $packsRoot"
 }
 
+function Convert-PathToPosix {
+    param(
+        [string]$PathValue
+    )
+
+    return $PathValue.Replace('\', '/')
+}
+
+function Convert-GlobToRegex {
+    param(
+        [string]$Pattern
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Pattern)) {
+        throw 'Manifest contains an empty include/exclude pattern.'
+    }
+
+    $normalizedPattern = (Convert-PathToPosix -PathValue $Pattern).Trim()
+    $builder = New-Object System.Text.StringBuilder
+    [void]$builder.Append('^')
+
+    for ($index = 0; $index -lt $normalizedPattern.Length; $index++) {
+        $char = $normalizedPattern[$index]
+
+        if ($char -eq '*') {
+            $isDoubleStar = $index + 1 -lt $normalizedPattern.Length -and $normalizedPattern[$index + 1] -eq '*'
+
+            if ($isDoubleStar) {
+                [void]$builder.Append('.*')
+                $index++
+            }
+            else {
+                [void]$builder.Append('[^/]*')
+            }
+
+            continue
+        }
+
+        if ($char -eq '?') {
+            [void]$builder.Append('[^/]')
+            continue
+        }
+
+        if ($char -eq '/') {
+            [void]$builder.Append('/')
+            continue
+        }
+
+        [void]$builder.Append([System.Text.RegularExpressions.Regex]::Escape([string]$char))
+    }
+
+    [void]$builder.Append('$')
+
+    return $builder.ToString()
+}
+
 function Get-IncludedFiles {
     param(
-        [string]$SourcePath
+        [string]$SourcePath,
+        [string]$ManifestPath,
+        [string]$PackName
     )
 
     if (-not (Test-Path $SourcePath)) {
         return @()
     }
 
-    return Get-ChildItem -Path $SourcePath -Recurse -File | Sort-Object -Property FullName -Unique
+    if (-not (Test-Path $ManifestPath)) {
+        throw "Manifest file not found for pack '$PackName': $ManifestPath"
+    }
+
+    $manifest = Get-Content -Raw -Path $ManifestPath | ConvertFrom-Json -AsHashtable
+
+    if (-not $manifest.ContainsKey('include')) {
+        throw "Manifest for pack '$PackName' must define an 'include' array: $ManifestPath"
+    }
+
+    $includePatterns = @(@($manifest.include) | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+
+    if ($includePatterns.Count -eq 0) {
+        throw "Manifest for pack '$PackName' has no include patterns: $ManifestPath"
+    }
+
+    $excludePatterns = @()
+
+    if ($manifest.ContainsKey('exclude')) {
+        $excludePatterns = @(@($manifest.exclude) | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+    }
+
+    $includeRegexes = @($includePatterns | ForEach-Object { Convert-GlobToRegex -Pattern ([string]$_) })
+    $excludeRegexes = @($excludePatterns | ForEach-Object { Convert-GlobToRegex -Pattern ([string]$_) })
+
+    $allFiles = Get-ChildItem -Path $SourcePath -Recurse -File | Sort-Object -Property FullName -Unique
+    $resolvedRoot = (Resolve-Path $SourcePath).Path.TrimEnd('\\')
+    $selectedFiles = New-Object System.Collections.Generic.List[object]
+
+    foreach ($file in $allFiles) {
+        $relativePath = $file.FullName.Substring($resolvedRoot.Length).TrimStart('\\')
+        $relativePosixPath = Convert-PathToPosix -PathValue $relativePath
+
+        $isIncluded = $false
+
+        foreach ($includeRegex in $includeRegexes) {
+            if ($relativePosixPath -match $includeRegex) {
+                $isIncluded = $true
+                break
+            }
+        }
+
+        if (-not $isIncluded) {
+            continue
+        }
+
+        $isExcluded = $false
+
+        foreach ($excludeRegex in $excludeRegexes) {
+            if ($relativePosixPath -match $excludeRegex) {
+                $isExcluded = $true
+                break
+            }
+        }
+
+        if (-not $isExcluded) {
+            $selectedFiles.Add($file) | Out-Null
+        }
+    }
+
+    return $selectedFiles
 }
 
 function Resolve-Tokens {
@@ -163,7 +281,8 @@ $collisionMap = @{}
 
 foreach ($packName in $selectedPacks) {
     $packRoot = Join-Path $packsRoot $packName
-    $files = Get-IncludedFiles -SourcePath $packRoot
+    $manifestPath = Join-Path $packRoot 'pack.manifest.json'
+    $files = Get-IncludedFiles -SourcePath $packRoot -ManifestPath $manifestPath -PackName $packName
     $resolvedPackRoot = (Resolve-Path $packRoot).Path.TrimEnd('\\')
 
     foreach ($file in $files) {
