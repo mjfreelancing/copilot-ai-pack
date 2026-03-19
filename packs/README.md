@@ -26,12 +26,12 @@ This folder contains modular Copilot asset packs for manual adoption.
 
 ## Common combinations
 
-| Use case                                | Suggested packs                                                                                                                   |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| C#/.NET service or library              | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                      |
-| ASP.NET Core API + Postgres             | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore` |
-| React + TypeScript app                  | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                    |
-| Any stack + agent setup/readiness tools | `agent-env-tools`                                                                                                                 |
+| Use case                                | Suggested packs                                                                                                                                       |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C#/.NET service or library              | `language-agnostic-core` <br> `csharp-core` <br> `dotnet-unit-tests`                                                                                  |
+| ASP.NET Core API + Postgres             | `language-agnostic-core` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore` |
+| React + TypeScript app                  | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `prompts-testing`                                                            |
+| Any stack + agent setup/readiness tools | `agent-env-tools`                                                                                                                                     |
 
 ## Pack catalog
 

@@ -23,13 +23,13 @@ The operating model is intentionally straightforward: pick the packs you need, c
 
 ## Recommended starter combinations
 
-| Repository type                              | Suggested packs                                                                                                                                                                                                         |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .NET backend/service                         | `language-agnostic-core` <br> `csharp-core` <br> `dotnet-unit-tests`                                                                                                                                                    |
-| ASP.NET Core API + Postgres                  | `language-agnostic-core` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore`                                                                   |
-| React + TypeScript client                    | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `prompts-testing`                                                                                                                              |
-| Full stack (React + ASP.NET Core + Postgres) | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore` <br> `prompts-testing` |
-| Any repo needing agent setup and readiness tools | Add `agent-env-tools`                                                                                                                                                                                               |
+| Repository type                                  | Suggested packs                                                                                                                                                                                                         |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| .NET backend/service                             | `language-agnostic-core` <br> `csharp-core` <br> `dotnet-unit-tests`                                                                                                                                                    |
+| ASP.NET Core API + Postgres                      | `language-agnostic-core` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore`                                                                   |
+| React + TypeScript client                        | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `prompts-testing`                                                                                                                              |
+| Full stack (React + ASP.NET Core + Postgres)     | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore` <br> `prompts-testing` |
+| Any repo needing agent setup and readiness tools | `agent-env-tools`                                                                                                                                                                                                       |
 
 ## What you copy
 
