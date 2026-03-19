@@ -10,13 +10,7 @@ What this repository offers:
 
 - instruction packs for language/framework behavior
 - testing prompts for common workflows
-- an optional agent environment diagnostics pack
-
-What this repository intentionally does not include:
-
-- centralized sync orchestration
-- profile combinator logic
-- token file replacement pipelines
+- an optional agent setup and readiness tools pack
 
 The operating model is intentionally straightforward: pick the packs you need, copy `.github` content, and adapt to your repository.
 
@@ -29,13 +23,13 @@ The operating model is intentionally straightforward: pick the packs you need, c
 
 ## Recommended starter combinations
 
-| Repository type                              | Suggested packs                                                                                                                                                                         |
-| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .NET backend/service                         | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                                                                            |
-| ASP.NET Core API + Postgres                  | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore`                                                       |
-| React + TypeScript client                    | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                                                                          |
-| Full stack (React + ASP.NET Core + Postgres) | `language-agnostic-core`, `typescript-core`, `react-client`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore`, `prompts-testing` |
-| Any repo needing environment checks          | Add `agent-env-tools`                                                                                                                                                                   |
+| Repository type                              | Suggested packs                                                                                                                                                                                                         |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| .NET backend/service                         | `language-agnostic-core` <br> `csharp-core` <br> `dotnet-unit-tests`                                                                                                                                                    |
+| ASP.NET Core API + Postgres                  | `language-agnostic-core` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore`                                                                   |
+| React + TypeScript client                    | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `prompts-testing`                                                                                                                              |
+| Full stack (React + ASP.NET Core + Postgres) | `language-agnostic-core` <br> `typescript-core` <br> `react-client` <br> `csharp-core` <br> `aspnetcore-api` <br> `aspnetcore-integration-tests` <br> `dotnet-unit-tests` <br> `postgres-efcore` <br> `prompts-testing` |
+| Any repo needing agent setup and readiness tools | Add `agent-env-tools`                                                                                                                                                                                               |
 
 ## What you copy
 

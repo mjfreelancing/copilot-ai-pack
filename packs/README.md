@@ -22,16 +22,16 @@ This folder contains modular Copilot asset packs for manual adoption.
 - Add one language pack (`csharp-core` or `typescript-core`).
 - Add framework/runtime packs only if your repository uses them (`react-client`, `aspnetcore-api`, `postgres-efcore`, `docker-compose`).
 - Add testing guidance (`dotnet-unit-tests`, `aspnetcore-integration-tests`, `prompts-testing`) when test work is in scope.
-- Add `agent-env-tools` if your team wants repeatable machine/tool checks.
+- Add `agent-env-tools` if your team wants repeatable agent setup and readiness tools.
 
 ## Common combinations
 
-| Use case                    | Suggested packs                                                                                                                   |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| C#/.NET service or library  | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                      |
-| ASP.NET Core API + Postgres | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore` |
-| React + TypeScript app      | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                    |
-| Full stack + diagnostics    | Add `agent-env-tools` to your selected frontend/backend packs                                                                     |
+| Use case                                | Suggested packs                                                                                                                   |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| C#/.NET service or library              | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                      |
+| ASP.NET Core API + Postgres             | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore` |
+| React + TypeScript app                  | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                    |
+| Any stack + agent setup/readiness tools | Add `agent-env-tools` to your selected packs                                                                                      |
 
 ## Pack catalog
 
