@@ -1,5 +1,5 @@
 ---
-applyTo: "{{ASPNETCORE_APPLY_TO}}"
+applyTo: "**/*.cs"
 ---
 
 # ASP.NET Core API Instructions

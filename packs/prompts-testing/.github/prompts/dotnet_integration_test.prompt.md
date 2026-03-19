@@ -1,7 +1,6 @@
 ---
 name: dotnet_integration_test
 description: Create or update hosted API integration tests with contract-focused assertions.
-model: GPT-5.3-Codex (copilot)
 ---
 
 Create integration tests for API boundary behavior.
@@ -15,4 +14,6 @@ Create integration tests for API boundary behavior.
 
 ## Execution
 
-- `dotnet test {{INTEGRATION_TEST_PROJECT_PATH}} --nologo --verbosity minimal` (from `{{SERVER_ROOT}}`)
+Adjust the example paths below to match your repository structure.
+
+- `dotnet test .\Source\Server\My.Api.Integration.Tests\My.Api.Integration.Tests.csproj --nologo --verbosity minimal` (from `.\Source\Server`)

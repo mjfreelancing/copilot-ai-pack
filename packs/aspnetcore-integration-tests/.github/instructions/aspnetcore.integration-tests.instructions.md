@@ -1,5 +1,5 @@
 ---
-applyTo: "{{ASPNETCORE_INTEGRATION_TESTS_APPLY_TO}}"
+applyTo: "**/*Integration.Tests/**/*.cs"
 ---
 
 # ASP.NET Core Integration Test Instructions

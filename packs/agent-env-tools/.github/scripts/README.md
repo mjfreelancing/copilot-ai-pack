@@ -13,14 +13,9 @@ Provide discoverable entry points for local automation scripts.
   - Explains missing-tool purpose.
   - Supports optional install flows (`-OfferInstall`, `-AutoInstall`, `-DryRun`).
 
-- Related VS Code tasks in `.vscode/tasks.json`:
-  - `agent-env-diagnostics`
-  - `agent-env-diagnostics-offer-install`
-  - `agent-env-diagnostics-auto-install-dryrun`
-
 ## Source of truth boundary
 
-- Keep detailed command behavior in the script itself and `.github/automation-playbook.md`.
+- Keep detailed command behavior in the script itself.
 - Keep this file as a discoverability index.
 
 ## Notes
@@ -29,7 +24,6 @@ Provide discoverable entry points for local automation scripts.
 
 - Agents typically run diagnostics in report-only mode first to assess environment readiness.
 - If optional tools are missing, agents use `-OfferInstall` (interactive) or `-AutoInstall -DryRun` (preview) before making changes.
-- Agents prefer task wrappers in `.vscode/tasks.json` when available, and fall back to direct script execution when needed.
 - Install-capable modes are opt-in; agents should not perform machine changes unless explicitly requested.
 
 ### Manual usage

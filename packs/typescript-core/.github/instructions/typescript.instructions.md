@@ -1,5 +1,5 @@
 ---
-applyTo: "{{TYPESCRIPT_APPLY_TO}}"
+applyTo: "**/*.{ts,tsx}"
 ---
 
 # TypeScript Instructions

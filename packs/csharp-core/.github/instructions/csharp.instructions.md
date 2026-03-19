@@ -1,5 +1,5 @@
 ---
-applyTo: "{{C_SHARP_APPLY_TO}}"
+applyTo: "**/*.cs"
 ---
 
 # C# Instructions

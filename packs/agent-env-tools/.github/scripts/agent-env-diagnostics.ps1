@@ -13,8 +13,8 @@
 #   - `agent-env-diagnostics-offer-install`
 #   - `agent-env-diagnostics-auto-install-dryrun`
 # - Documentation/workflow references:
-#   - `.github/automation-playbook.md`
-#   - `.github/skills/environment-preflight/SKILL.md`
+#   - `.github/scripts/README.md`
+#   - `.github/skills/agent-env-tools/SKILL.md`
 #
 # Notes:
 # - Required tools cause exit code 1 when missing.

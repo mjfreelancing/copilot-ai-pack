@@ -1,7 +1,6 @@
 ---
 name: dotnet_unit_test
 description: Create or update .NET unit tests with deterministic setup and focused assertions.
-model: GPT-5.3-Codex (copilot)
 ---
 
 Create unit tests for .NET code.
@@ -15,4 +14,6 @@ Create unit tests for .NET code.
 
 ## Execution
 
-- `dotnet test {{SERVER_SOLUTION_FILE}} -c Debug --nologo --verbosity minimal` (from `{{SERVER_ROOT}}`)
+Adjust the example paths below to match your repository structure.
+
+- `dotnet test .\Source\Server\MySolution.sln -c Debug --nologo --verbosity minimal` (from `.\Source\Server`)

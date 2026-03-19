@@ -1,5 +1,5 @@
 ---
-applyTo: "{{POSTGRES_EFCORE_APPLY_TO}}"
+applyTo: "**/*.cs"
 ---
 
 # Postgres + EF Core Instructions

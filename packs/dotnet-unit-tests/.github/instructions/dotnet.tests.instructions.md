@@ -1,5 +1,5 @@
 ---
-applyTo: "{{DOTNET_TESTS_APPLY_TO}}"
+applyTo: "**/*Tests/**/*.cs"
 ---
 
 # .NET Test Instructions

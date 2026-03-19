@@ -1,7 +1,6 @@
 ---
 name: typescript_tests
 description: Create or update TypeScript/JavaScript tests with deterministic setup and behavior-focused assertions.
-model: GPT-5.3-Codex (copilot)
 ---
 
 Create tests for TypeScript/JavaScript code.
@@ -15,4 +14,6 @@ Create tests for TypeScript/JavaScript code.
 
 ## Execution
 
-- `npm run test` (from `{{CLIENT_ROOT}}`)
+Adjust the example paths below to match your repository structure.
+
+- `npm run test` (from `.\Source\Client\my-app`)

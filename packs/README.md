@@ -1,6 +1,20 @@
 # Packs
 
-This folder contains modular Copilot asset packs that you can combine per repository.
+This folder contains modular Copilot asset packs for manual adoption.
+
+## Manual integration workflow
+
+1. Pick the packs that match your stack.
+2. Copy each selected pack's `.github` content into your target repository.
+3. Adjust copied files to your repository conventions as needed.
+
+## Manual adoption checklist
+
+- Confirm which stack areas your repository has (language, framework, database, testing, tooling).
+- Start with baseline + one language pack.
+- Add framework/database/testing packs only when needed.
+- Validate copied instruction and prompt paths against your repository structure.
+- Commit pack changes in small, reviewable batches.
 
 ## How to choose quickly
 
@@ -8,13 +22,18 @@ This folder contains modular Copilot asset packs that you can combine per reposi
 - Add one language pack (`csharp-core` or `typescript-core`).
 - Add framework/runtime packs only if your repository uses them (`react-client`, `aspnetcore-api`, `postgres-efcore`, `docker-compose`).
 - Add testing guidance (`dotnet-unit-tests`, `aspnetcore-integration-tests`, `prompts-testing`) when test work is in scope.
-- Add `environment-preflight` if your team wants repeatable machine/tool checks.
+- Add `agent-env-tools` if your team wants repeatable machine/tool checks.
 
-If you want a pre-built combination, use a profile from `sync/pack-profiles.json`.
+## Common combinations
+
+| Use case                    | Suggested packs                                                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| C#/.NET service or library  | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                      |
+| ASP.NET Core API + Postgres | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore` |
+| React + TypeScript app      | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                    |
+| Full stack + diagnostics    | Add `agent-env-tools` to your selected frontend/backend packs                                                                     |
 
 ## Pack catalog
-
-Each pack below shows when to use it, what files it copies, and what it does not cover.
 
 ### `language-agnostic-core`
 
@@ -22,14 +41,13 @@ Use when:
 
 - You want baseline coding behavior that applies across stacks.
 
-Copies:
+Provides:
 
-- `.github/instructions/language-agnostic-core.instructions.md`
+- Cross-language instruction guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not provide language-specific syntax guidance.
-- Combine with a language pack for best results.
+- Any language/framework pack.
 
 ### `csharp-core`
 
@@ -37,14 +55,15 @@ Use when:
 
 - The repository has C#/.NET production code.
 
-Copies:
+Provides:
 
-- `.github/instructions/csharp.instructions.md`
+- C# language and architecture guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not define API- or EF-specific conventions.
-- Combine with `aspnetcore-api` and/or `postgres-efcore` when those concerns exist.
+- `aspnetcore-api`
+- `postgres-efcore`
+- `dotnet-unit-tests`
 
 ### `typescript-core`
 
@@ -52,14 +71,14 @@ Use when:
 
 - The repository has TypeScript/JavaScript code and needs language-level guardrails.
 
-Copies:
+Provides:
 
-- `.github/instructions/typescript.instructions.md`
+- TypeScript language and runtime guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not include React-specific architecture and UX guidance.
-- Combine with `react-client` for React apps.
+- `react-client`
+- `prompts-testing`
 
 ### `react-client`
 
@@ -67,14 +86,14 @@ Use when:
 
 - The repository includes a React frontend.
 
-Copies:
+Provides:
 
-- `.github/instructions/react-client.instructions.md`
+- React architecture, state, and UI guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Assumes TypeScript/client context and does not replace backend guidance.
-- Pair with `typescript-core` for full language + framework coverage.
+- `typescript-core`
+- `prompts-testing`
 
 ### `aspnetcore-api`
 
@@ -82,14 +101,20 @@ Use when:
 
 - The repository exposes ASP.NET Core API endpoints.
 
-Copies:
+Provides:
 
-- `.github/instructions/aspnetcore-api.instructions.md`
+- API endpoint and contract guidance.
 
-Not for / pitfalls:
+Note:
 
-- Does not include integration-test project guidance by itself.
-- Pair with `aspnetcore-integration-tests` and `dotnet-unit-tests` for testing workflows.
+- When used with `csharp-core`, treat `csharp-core` as baseline C# guidance and `aspnetcore-api` as API-focused refinements for endpoint and contract work.
+
+Works well with:
+
+- `csharp-core`
+- `aspnetcore-integration-tests`
+- `dotnet-unit-tests`
+- `postgres-efcore` (when DB-backed)
 
 ### `aspnetcore-integration-tests`
 
@@ -97,14 +122,14 @@ Use when:
 
 - You run hosted API tests through real HTTP pipeline behavior.
 
-Copies:
+Provides:
 
-- `.github/instructions/aspnetcore.integration-tests.instructions.md`
+- ASP.NET Core integration testing guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Not intended for pure unit-test scenarios.
-- Keep unit test conventions in `dotnet-unit-tests`.
+- `aspnetcore-api`
+- `dotnet-unit-tests`
 
 ### `dotnet-unit-tests`
 
@@ -112,14 +137,15 @@ Use when:
 
 - You need deterministic .NET unit testing conventions.
 
-Copies:
+Provides:
 
-- `.github/instructions/dotnet.tests.instructions.md`
+- .NET unit testing guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not define API host bootstrapping or DB-backed integration test behavior.
-- Pair with `aspnetcore-integration-tests` for hosted/API boundary tests.
+- `csharp-core`
+- `aspnetcore-api`
+- `aspnetcore-integration-tests`
 
 ### `postgres-efcore`
 
@@ -127,14 +153,14 @@ Use when:
 
 - The repository uses EF Core with PostgreSQL and migration-driven schema changes.
 
-Copies:
+Provides:
 
-- `.github/instructions/postgres-efcore.instructions.md`
+- PostgreSQL + EF Core modeling/query/migration guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not replace generic C# architecture guidance.
-- Pair with `csharp-core` and `aspnetcore-api` in backend repositories.
+- `csharp-core`
+- `aspnetcore-api`
 
 ### `docker-compose`
 
@@ -142,14 +168,13 @@ Use when:
 
 - The repository includes Docker Compose lifecycle workflows.
 
-Copies:
+Provides:
 
-- `.github/instructions/docker.instructions.md`
+- Docker workflow safety and validation guidance.
 
-Not for / pitfalls:
+Works well with:
 
-- Does not add compose files or service definitions.
-- Focuses on workflow safety and validation patterns.
+- Any stack that includes local containerized workflows.
 
 ### `prompts-testing`
 
@@ -157,80 +182,37 @@ Use when:
 
 - You want reusable prompt entry points for test authoring/execution tasks.
 
-Copies:
+Provides:
 
-- `.github/prompts/repo_tests.prompt.md`
-- `.github/prompts/typescript_tests.prompt.md`
-- `.github/prompts/dotnet_unit_test.prompt.md`
-- `.github/prompts/dotnet_integration_test.prompt.md`
+- Test-focused prompt files for .NET and TypeScript workflows.
 
-Not for / pitfalls:
+Note:
 
-- Prompts reference tokens like `{{SERVER_ROOT}}` and `{{CLIENT_ROOT}}`.
-- Provide a token file during sync when using tokenized prompts.
+- Prompts include example paths that can be adjusted to match your repository layout.
 
-### `environment-preflight`
+Works well with:
+
+- `dotnet-unit-tests`
+- `aspnetcore-integration-tests`
+- `typescript-core`
+- `react-client`
+
+### `agent-env-tools`
 
 Use when:
 
 - You want standardized pre-session environment diagnostics.
 
-Copies:
+Provides:
 
-- `.github/skills/README.md`
-- `.github/skills/environment-preflight/SKILL.md`
-- `.github/scripts/README.md`
-- `.github/scripts/agent-env-diagnostics.ps1`
+- A reusable agent environment diagnostics skill and script.
 
-Not for / pitfalls:
+Works well with:
 
-- This pack includes a script that can perform installs only in opt-in modes.
-- Team policy should decide whether install-capable modes are allowed by default.
+- Any stack where agent environment consistency matters.
 
-## Manifest requirements
+## Per-pack documentation
 
-Each pack root must include `pack.manifest.json`.
+Each pack includes a local `README.md` with targeted usage guidance.
 
-- `include` is required and must be a string array.
-- `exclude` is optional and must be a string array when present.
-- Sync fails if a selected pack is missing a manifest or has invalid schema.
-
-Current pack manifests use:
-
-```json
-{
-  "include": [".github/**"],
-  "exclude": []
-}
-```
-
-## Manifest path resolution and glob patterns
-
-Patterns in `pack.manifest.json` are resolved relative to the pack root.
-
-Example: for `packs/csharp-core/pack.manifest.json`, pattern `.github/**` matches `packs/csharp-core/.github/...`.
-
-Pattern behavior:
-
-- Paths are matched relative to pack root, not repository root.
-- `/` is the path separator in patterns.
-- `*` matches any characters within a single path segment.
-- `**` matches across folder boundaries.
-- `?` matches one character within a segment.
-
-Examples:
-
-- `"*.md"` matches markdown files in pack root only.
-- `".github/**"` matches all files under `.github` recursively.
-- `"**/*.instructions.md"` matches instruction files anywhere in pack.
-- `"**/*.prompt.md"` matches prompt files anywhere in pack.
-
-Common include/exclude combinations:
-
-- Include all `.github` assets except scripts:
-  - `include`: `".github/**"`
-  - `exclude`: `".github/scripts/**"`
-- Include only instructions and prompts:
-  - `include`: `".github/instructions/**/*.md"`, `".github/prompts/**/*.md"`
-- Exclude one file:
-  - `exclude`: `".github/prompts/repo_tests.prompt.md"`
+Maintainers should use [REVIEW-CHECKLIST.md](REVIEW-CHECKLIST.md) before merging pack changes.

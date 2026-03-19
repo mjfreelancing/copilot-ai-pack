@@ -1,5 +1,5 @@
 ---
-applyTo: "{{REACT_CLIENT_APPLY_TO}}"
+applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
 # React Client Instructions

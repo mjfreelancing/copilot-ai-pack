@@ -1,5 +1,5 @@
 ---
-applyTo: "{{DOCKER_APPLY_TO}}"
+applyTo: "**/Docker/**"
 ---
 
 # Docker Workflow Instructions
@@ -8,7 +8,7 @@ applyTo: "{{DOCKER_APPLY_TO}}"
 
 ### Lifecycle
 
-- Prefer workspace task wrappers over ad-hoc shell sequences.
+- Prefer explicit, repeatable command sequences.
 - Keep compose command usage explicit and repeatable.
 - Validate service health after lifecycle changes.
 

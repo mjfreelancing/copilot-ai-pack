@@ -1,7 +1,6 @@
 ---
 name: repo_tests
 description: Run repository test suites with project defaults, then summarize failures.
-model: GPT-5.3-Codex (copilot)
 ---
 
 Run tests using repository defaults.
@@ -14,5 +13,7 @@ Run tests using repository defaults.
 
 ## Commands
 
-- .NET: `dotnet test {{SERVER_SOLUTION_FILE}} -c Debug --nologo --verbosity minimal` (from `{{SERVER_ROOT}}`)
-- JS/TS: `npm run test` (from `{{CLIENT_ROOT}}`)
+Adjust the example paths below to match your repository structure.
+
+- .NET: `dotnet test .\Source\Server\MySolution.sln -c Debug --nologo --verbosity minimal` (from `.\Source\Server`)
+- JS/TS: `npm run test` (from `.\Source\Client\my-app`)
