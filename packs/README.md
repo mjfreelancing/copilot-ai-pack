@@ -31,7 +31,7 @@ This folder contains modular Copilot asset packs for manual adoption.
 | C#/.NET service or library              | `language-agnostic-core`, `csharp-core`, `dotnet-unit-tests`                                                                      |
 | ASP.NET Core API + Postgres             | `language-agnostic-core`, `csharp-core`, `aspnetcore-api`, `aspnetcore-integration-tests`, `dotnet-unit-tests`, `postgres-efcore` |
 | React + TypeScript app                  | `language-agnostic-core`, `typescript-core`, `react-client`, `prompts-testing`                                                    |
-| Any stack + agent setup/readiness tools | Add `agent-env-tools` to your selected packs                                                                                      |
+| Any stack + agent setup/readiness tools | `agent-env-tools`                                                                                                                 |
 
 ## Pack catalog
 
