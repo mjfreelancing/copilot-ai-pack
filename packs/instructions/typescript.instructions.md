@@ -10,7 +10,9 @@ applyTo: "**/*.{ts,tsx}"
 
 - Prefer explicit types and `type` aliases where practical.
 - Do not use `any` unless unavoidable at a boundary.
+- Prefer function declarations over arrow functions for exported utilities where practical.
 - Always use braces for `if` statements, including single-line branches.
+- Keep a blank line before and after multi-line `if` blocks for readability consistency.
 - Keep modules small and cohesive.
 
 ### Runtime Behavior

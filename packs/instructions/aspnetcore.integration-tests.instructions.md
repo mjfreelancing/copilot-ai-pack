@@ -8,19 +8,32 @@ applyTo: "**/*Integration.Tests/**/*.cs"
 
 ### Classification
 
-- Use integration tests when behavior must be verified through hosted API pipeline + real HTTP requests.
-- Keep unit tests in unit test projects; avoid host bootstrapping for unit scope.
+- Use a unit test when the test executes a class or method directly without booting the API host.
+- Use a unit test when dependencies are mocked or faked in-process and assertions focus on local behavior.
+- Use an integration test when the test boots `Program` via `WebApplicationFactory<Program>` (or derived factory) and sends real HTTP requests through middleware, routing, auth, filters, or rate limiting.
+- Use an integration test when validating endpoint handler behavior and request/response mapping through the hosted API boundary.
+- Use an integration test when asserting HTTP contracts such as status codes, headers, ProblemDetails payload shape, CORS behavior, and endpoint method contracts such as `405`.
 
 ### Organization and Assertions
 
-- Organize tests by feature and cross-cutting concerns.
-- Assert HTTP status first, then contract fields and headers.
+- Organize tests by feature first, then cross-cutting concerns.
+- Assert HTTP status first, then critical contract fields and headers.
 - Prefer typed response models over ad-hoc JSON traversal.
+- Validate API contracts with real HTTP calls through test host factories.
+
+### Infrastructure and Assertions
+
+- Use `Host/*WebApplicationFactory.cs` for shared test host configuration.
+- Use `WebApplicationFactory<Program>`-style host fixtures and real `HttpClient` calls.
+- For repeated integration assertion patterns, create reusable helper extensions in `Host/Extensions` within the integration test project.
+- Include validation-failure and method-contract (`405`) checks where applicable.
+- Ensure responses do not leak sensitive request or header data.
 
 ### Reliability
 
-- Start with targeted fixture/test execution, then broaden scope.
+- Start with targeted fixture or test execution, then broaden scope.
 - Keep shared host setup in reusable factory fixtures.
+- Prefer project-level execution with `FullyQualifiedName` filtering over file-path-based discovery tooling for deterministic reruns.
 
 ## Expansion Notes
 
