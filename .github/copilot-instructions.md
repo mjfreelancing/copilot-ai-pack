@@ -36,7 +36,7 @@ These principles keep the repository focused and maintainable.
 - Pack catalog and adoption guidance: `packs/README.md`
 - Instruction file index: `packs/instructions/README.md`
 - Prompt file index: `packs/prompts/README.md`
-- Multi-file pack notes: `packs/skills/agent-env-tools/SKILL.md`, `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1`
+- Multi-file pack notes: `packs/skills/agent-env-tools/SKILL.md`, `packs/skills/agent-env-tools/scripts/agent-env-tools.ps1`
 
 ## Expectations for changes
 
@@ -66,5 +66,5 @@ When adding or modifying pack assets:
 
 1. Read `README.md` for current workflow and pack selection model.
 2. Read `packs/README.md` for pack selection and integration guidance.
-3. Read `packs/instructions/README.md`, `packs/prompts/README.md`, `packs/skills/agent-env-tools/SKILL.md`, or `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` as relevant to the changed assets.
+3. Read `packs/instructions/README.md`, `packs/prompts/README.md`, `packs/skills/agent-env-tools/SKILL.md`, or `packs/skills/agent-env-tools/scripts/agent-env-tools.ps1` as relevant to the changed assets.
 4. Make minimal changes and keep docs aligned with edited packs.

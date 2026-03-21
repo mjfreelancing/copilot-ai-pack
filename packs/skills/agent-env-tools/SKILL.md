@@ -4,7 +4,7 @@
 
 Standardize agent startup checks so sessions are reliable before code changes and tests.
 
-Source script in this repository: `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1`.
+Source script in this repository: `packs/skills/agent-env-tools/scripts/agent-env-tools.ps1`.
 
 ## When to use
 
@@ -25,13 +25,13 @@ Source script in this repository: `packs/skills/agent-env-tools/scripts/agent-en
 After copying this skill folder into `.github/skills/agent-env-tools/` in your repository:
 
 - Report-only:
-  - `.\.github\skills\agent-env-tools\scripts\agent-env-diagnostics.ps1`
+  - `\.\.github\skills\agent-env-tools\scripts\agent-env-tools.ps1`
 - Offer installs (interactive):
-  - `.\.github\skills\agent-env-tools\scripts\agent-env-diagnostics.ps1 -OfferInstall`
+  - `\.\.github\skills\agent-env-tools\scripts\agent-env-tools.ps1 -OfferInstall`
 - Auto-install optional tools (opt-in):
-  - `.\.github\skills\agent-env-tools\scripts\agent-env-diagnostics.ps1 -AutoInstall`
+  - `\.\.github\skills\agent-env-tools\scripts\agent-env-tools.ps1 -AutoInstall`
 - Dry run install preview:
-  - `.\.github\skills\agent-env-tools\scripts\agent-env-diagnostics.ps1 -OfferInstall -DryRun`
+  - `\.\.github\skills\agent-env-tools\scripts\agent-env-tools.ps1 -OfferInstall -DryRun`
 
 ## Required result
 

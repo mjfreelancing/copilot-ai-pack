@@ -56,7 +56,7 @@ Common asset types:
 - `packs/prompts/README.md` — prompt file index for maintainers
 - `packs/skills/` — skill source files grouped by pack
 - `packs/skills/agent-env-tools/SKILL.md` — agent tooling skill definition
-- `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` — agent environment diagnostics script used by the skill
+- `packs/skills/agent-env-tools/scripts/agent-env-tools.ps1` — agent environment diagnostics script used by the skill
 - `packs/README.md` — detailed pack catalog and selection guidance
 - `.github/copilot-instructions.md` — maintainer guidance for evolving this repository
 

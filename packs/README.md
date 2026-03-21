@@ -225,4 +225,4 @@ Works well with:
 - `instructions/README.md` indexes available instruction files.
 - `prompts/README.md` indexes available prompt files.
 - `skills/agent-env-tools/SKILL.md` documents the agent tooling skill workflow.
-- `skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` is the diagnostics implementation.
+- `skills/agent-env-tools/scripts/agent-env-tools.ps1` is the diagnostics implementation.
