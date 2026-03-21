@@ -12,12 +12,12 @@ What this repository offers:
 - testing prompts for common workflows
 - an optional agent setup and readiness tools pack
 
-The operating model is intentionally straightforward: pick the packs you need, copy `.github` content, and adapt to your repository.
+The operating model is intentionally straightforward: pick the packs you need, copy the relevant source files into `.github`, and adapt them to your repository.
 
 ## Quick start
 
 1. Open `packs/README.md` and pick packs for your stack.
-2. In your repository, copy `.github` content from each selected pack.
+2. Copy source files from `packs/instructions/`, `packs/prompts/`, and `packs/skills/` into the matching `.github/` folders in your repository.
 3. Keep the copied files that fit your workflow; edit as needed.
 4. Commit changes in your repository.
 
@@ -33,13 +33,13 @@ The operating model is intentionally straightforward: pick the packs you need, c
 
 ## What you copy
 
-Each pack stores assets under `.github/`.
+Source assets in this repository are organized by asset type under `packs/` and are copied into `.github/` folders in the consuming repository.
 
 Common asset types:
 
-- `.github/instructions/*.instructions.md`
-- `.github/prompts/*.prompt.md`
-- `.github/skills/**` and `.github/scripts/**` (only in specific packs)
+- `packs/instructions/*.instructions.md` -> copy into `.github/instructions/`
+- `packs/prompts/*.prompt.md` -> copy into `.github/prompts/`
+- `packs/skills/<pack>/**` -> copy into `.github/skills/<pack>/` (including any scripts/resources used by that skill)
 
 ## How to use effectively
 
@@ -50,7 +50,13 @@ Common asset types:
 
 ## Repository structure
 
-- `packs/` — modular pack folders for direct copy/reference usage
+- `packs/instructions/` — instruction source files
+- `packs/instructions/README.md` — instruction file index for maintainers
+- `packs/prompts/` — prompt source files
+- `packs/prompts/README.md` — prompt file index for maintainers
+- `packs/skills/` — skill source files grouped by pack
+- `packs/skills/agent-env-tools/SKILL.md` — agent tooling skill definition
+- `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` — agent environment diagnostics script used by the skill
 - `packs/README.md` — detailed pack catalog and selection guidance
 - `.github/copilot-instructions.md` — maintainer guidance for evolving this repository
 
@@ -59,6 +65,5 @@ Common asset types:
 When changing packs:
 
 - keep pack intent clear and scoped
-- update relevant pack README files
+- update the relevant type-level or pack-level README files
 - keep root and pack catalog docs aligned
-- use `packs/REVIEW-CHECKLIST.md` before finalizing changes

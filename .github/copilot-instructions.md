@@ -34,17 +34,18 @@ These principles keep the repository focused and maintainable.
 
 - Root orientation and usage model: `README.md`
 - Pack catalog and adoption guidance: `packs/README.md`
-- Pack-local intent and notes: `packs/*/README.md`
+- Instruction file index: `packs/instructions/README.md`
+- Prompt file index: `packs/prompts/README.md`
+- Multi-file pack notes: `packs/skills/agent-env-tools/SKILL.md`, `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1`
 
 ## Expectations for changes
 
 When adding or modifying pack assets:
 
-1. Update the relevant pack files under `packs/<pack>/.github/...`.
-2. Keep pack-root `README.md` in sync with pack intent and usage.
+1. Update the relevant pack files under `packs/instructions/`, `packs/prompts/`, or `packs/skills/<pack>/...` as appropriate.
+2. Keep the relevant type-level or pack-level `README.md` in sync with pack intent and usage.
 3. Update root docs when behavior or guidance changes (`README.md`, `packs/README.md`).
 4. Validate content quality through focused review of changed pack files.
-5. Use and satisfy `packs/REVIEW-CHECKLIST.md` before finalizing changes.
 
 ## Style and scope guardrails
 
@@ -65,5 +66,5 @@ When adding or modifying pack assets:
 
 1. Read `README.md` for current workflow and pack selection model.
 2. Read `packs/README.md` for pack selection and integration guidance.
-3. Read the relevant `packs/*/README.md` for pack-specific intent.
+3. Read `packs/instructions/README.md`, `packs/prompts/README.md`, `packs/skills/agent-env-tools/SKILL.md`, or `packs/skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` as relevant to the changed assets.
 4. Make minimal changes and keep docs aligned with edited packs.

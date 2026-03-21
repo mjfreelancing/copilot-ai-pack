@@ -5,8 +5,16 @@ This folder contains modular Copilot asset packs for manual adoption.
 ## Manual integration workflow
 
 1. Pick the packs that match your stack.
-2. Copy each selected pack's `.github` content into your target repository.
+2. Copy the selected source files from `packs/instructions/`, `packs/prompts/`, and `packs/skills/<pack>/` into the matching `.github/` folders in your target repository.
 3. Adjust copied files to your repository conventions as needed.
+
+## Source layout
+
+- `packs/instructions/*.instructions.md` -> copy into `.github/instructions/`
+- `packs/prompts/*.prompt.md` -> copy into `.github/prompts/`
+- `packs/skills/<pack>/...` -> copy into `.github/skills/<pack>/` (including skill-specific scripts/resources)
+
+See `instructions/README.md` and `prompts/README.md` for the file-level indexes.
 
 ## Manual adoption checklist
 
@@ -212,8 +220,9 @@ Works well with:
 
 - Any stack where agent environment consistency matters.
 
-## Per-pack documentation
+## Local documentation
 
-Each pack includes a local `README.md` with targeted usage guidance.
-
-Maintainers should use [REVIEW-CHECKLIST.md](REVIEW-CHECKLIST.md) before merging pack changes.
+- `instructions/README.md` indexes available instruction files.
+- `prompts/README.md` indexes available prompt files.
+- `skills/agent-env-tools/SKILL.md` documents the agent tooling skill workflow.
+- `skills/agent-env-tools/scripts/agent-env-diagnostics.ps1` is the diagnostics implementation.
