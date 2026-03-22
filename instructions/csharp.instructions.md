@@ -14,19 +14,19 @@ applyTo: "**/*.cs"
 - Keep methods focused and avoid unnecessary abstraction.
 - Keep method and constructor signatures reasonably compact for readability; wrap parameters when needed for clarity.
 - Follow member-ordering conventions consistently within each project:
-	- Place nested types above constants, fields, and properties.
-	- Place constants before other fields; place static readonly fields before instance fields.
-	- Place private readonly dependency fields above other instance fields.
-	- Place properties above constructors.
-	- Keep constructors above methods.
-	- Order methods by visibility: public, protected, internal, private.
+  - Place nested types above constants, fields, and properties.
+  - Place constants before other fields; place static readonly fields before instance fields.
+  - Place private readonly dependency fields above other instance fields.
+  - Place properties above constructors.
+  - Keep constructors above methods.
+  - Order methods by visibility: public, protected, internal, private.
 - Avoid sync-over-async (`.Result`, `.Wait()`, `.GetAwaiter().GetResult()`).
 - Keep `CancellationToken` propagation intact in async chains.
 - Place extension methods in an `Extensions` folder and name extension files/classes after the extended type (`<ExtendedType>Extensions`).
 - Preserve public API shape unless change is explicitly requested or approved.
 - Implement with testability in mind; prefer constructor injection and avoid static dependencies.
 - Default to sealed classes unless extensibility is required.
-- Do not use primary constructors; prefer explicit constructor definitions for clarity and testability when project conventions require it.
+- Do not use primary constructors; prefer explicit constructor definitions for clarity and testability.
 
 ### C# Architecture
 

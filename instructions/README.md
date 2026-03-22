@@ -17,6 +17,8 @@ Copy the selected `*.instructions.md` files from this folder into `.github/instr
 | `aspnetcore-api.instructions.md`               | ASP.NET Core API endpoint and contract guidance.          |
 | `aspnetcore.integration-tests.instructions.md` | ASP.NET Core hosted integration testing guidance.         |
 | `dotnet.tests.instructions.md`                 | Deterministic .NET unit testing guidance.                 |
+| `server.instructions.md`                       | Server-layer architecture and persistence guidance.       |
+| `client.tests.instructions.md`                 | Client test design and tooling guidance.                  |
 | `postgres-efcore.instructions.md`              | PostgreSQL and EF Core modeling/query/migration guidance. |
 | `docker.instructions.md`                       | Docker workflow safety and validation guidance.           |
 
@@ -24,4 +26,4 @@ Copy the selected `*.instructions.md` files from this folder into `.github/instr
 
 - These files are stored flat to mirror the final `.github/instructions/` structure.
 - Adjust `applyTo` values after copying if your repository layout differs from the examples.
-- See `../README.md` for pack combinations and adoption guidance.
+- See `../README.md` for asset combinations and adoption guidance.

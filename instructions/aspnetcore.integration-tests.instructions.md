@@ -26,6 +26,7 @@ applyTo: "**/*Integration.Tests/**/*.cs"
 - Use `Host/*WebApplicationFactory.cs` for shared test host configuration.
 - Use `WebApplicationFactory<Program>`-style host fixtures and real `HttpClient` calls.
 - For repeated integration assertion patterns, create reusable helper extensions in `Host/Extensions` within the integration test project.
+- Capture and assert logging behavior by configuring fake loggers in the test host; extract repeated log assertion patterns into shared helpers.
 - Include validation-failure and method-contract (`405`) checks where applicable.
 - Ensure responses do not leak sensitive request or header data.
 

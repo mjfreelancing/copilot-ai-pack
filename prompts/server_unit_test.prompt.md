@@ -1,0 +1,31 @@
+---
+name: server_unit_test
+description: Create or update server unit tests in the nearest test project.
+---
+
+Create unit tests for server code.
+
+## Scope
+
+- Target server unit tests only.
+- Place tests in the nearest server unit-test project for the changed code.
+- Do not place hosted API or end-to-end boundary tests here.
+
+## Workflow
+
+1. Identify the owning layer or project and place tests in the nearest server unit-test project.
+2. Follow scoped instruction files for coding and assertion conventions.
+3. Add deterministic setup and behavior-focused assertions.
+4. Run the smallest relevant test scope first, then broaden when useful.
+
+## Execution
+
+Adjust the example paths below to match your repository structure.
+
+- `dotnet test .\Source\Server\My.Project.Tests\My.Project.Tests.csproj --filter "FullyQualifiedName~<FixtureOrTestName>" --nologo --verbosity minimal` (from `.\Source\Server`)
+- `dotnet test .\Source\Server\MySolution.sln -c Debug --nologo --verbosity minimal` (from `.\Source\Server`)
+
+## Expansion Notes
+
+- Add repository-specific project paths and command variants in consuming copies.
+- Keep cross-project placement rules in `Scope`.

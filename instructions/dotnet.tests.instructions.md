@@ -21,6 +21,7 @@ applyTo: "**/*Tests/**/*.cs"
 - When setup or assertion patterns repeat, prefer adding or extending shared helpers rather than duplicating logic in individual fixtures.
 - Keep shared test utility projects strictly general-purpose; project-specific helpers should remain in the owning test project.
 - When internal visibility is needed for testing, use csproj `InternalsVisibleTo` declarations.
+- For targeted reruns, prefer project-level execution with `--filter` on fully-qualified test names.
 
 ### Placement
 
