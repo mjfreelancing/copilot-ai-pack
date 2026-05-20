@@ -24,7 +24,19 @@ Use this skill when:
 
 ## Operational Workflow
 
-### Phase 1: Discovery (The Interview)
+### Phase 1: Source Intake (User-Provided File)
+
+If the user provides an input file (brain dump, bullet list, meeting notes, or draft PRD), you **MUST** treat it as the primary source.
+
+**Intake rules:**
+
+- Accept input from one or more user-provided files.
+- Preserve original meaning and wording when moving content into PRD sections.
+- Re-home content into the most relevant schema sections instead of rewriting it.
+- If a source item fits multiple sections, place it in the most decision-critical section and cross-reference it.
+- If content is ambiguous, keep it in-place under a clearly labeled `TBD` or `Open Question` note rather than rewriting.
+
+### Phase 2: Discovery (The Interview)
 
 Before writing a single line of the PRD, you **MUST** interrogate the user to fill knowledge gaps. Do not assume context.
 
@@ -35,7 +47,7 @@ Before writing a single line of the PRD, you **MUST** interrogate the user to fi
 - **Success Metrics**: How do we know it worked?
 - **Constraints**: Budget, tech stack, or deadline?
 
-### Phase 2: Analysis & Scoping
+### Phase 3: Analysis & Scoping
 
 Synthesize the user's input. Identify dependencies and hidden complexities.
 
@@ -43,9 +55,31 @@ Synthesize the user's input. Identify dependencies and hidden complexities.
 - Map out the **User Flow**.
 - Define **Non-Goals** to protect the timeline.
 
-### Phase 3: Technical Drafting
+### Phase 4: Technical Drafting
 
 Generate the document using the **Core PRD Schema** below.
+
+### Phase 5: Fidelity Check (No Silent Edits)
+
+Before finalizing, verify that source content has been transferred without silent modification.
+
+- Do not alter source claims, constraints, or decisions without user approval.
+- If a change is strongly recommended, present it as a **suggestion** and ask the user how to proceed.
+- Separate drafted content from suggestions using explicit labels such as `Proposed Change` and `Reason`.
+
+---
+
+## Source Mapping Rules (When Starting From Existing Material)
+
+When the user provides source material, map it into the PRD schema as follows:
+
+- Problem statements, business drivers -> `1. Executive Summary`
+- User behaviors, workflows, operator interactions -> `2. User Experience & Functionality`
+- AI/tooling/evaluation content -> `3. AI System Requirements (If Applicable)`
+- APIs, architecture, data, security, integration details -> `4. Technical Specifications`
+- Risks, unknowns, dependencies, rollout sequencing -> `5. Risks & Roadmap`
+
+If a source already resembles a PRD section, keep the original structure and wording and only normalize formatting.
 
 ---
 
@@ -343,11 +377,14 @@ These should be added only when they materially improve decision-making or execu
 - **Define Testing**: For AI systems, specify how to test and validate output quality.
 - **Iterate**: Present a draft and ask for feedback on specific sections.
 - **Match Audience Formality**: Confirm whether output is for solo build execution, team delivery, or executive alignment, then tune depth and artifact rigor accordingly.
+- **Preserve Source Fidelity**: Keep user-provided source wording intact when migrating content into PRD sections.
+- **Ask Before Changing Meaning**: If a high-value edit changes intent, ask the user whether to apply it.
 
 ### DON'T (Avoid)
 
 - **Skip Discovery**: Never write a PRD without asking at least 4 clarifying questions first, including formality/audience and unknowns.
 - **Hallucinate Constraints**: If the user didn't specify a tech stack, ask or label it as `TBD`.
+- **Silently Rewrite Source Material**: Do not paraphrase away important details from user-provided files.
 
 ---
 
