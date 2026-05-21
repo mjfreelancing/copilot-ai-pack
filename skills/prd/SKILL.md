@@ -36,9 +36,36 @@ If the user provides an input file (brain dump, bullet list, meeting notes, or d
 - If a source item fits multiple sections, place it in the most decision-critical section and cross-reference it.
 - If content is ambiguous, keep it in-place under a clearly labeled `TBD` or `Open Question` note rather than rewriting.
 
-### Phase 2: Discovery (The Interview)
+### Phase 2: Source Maturity Classification (Hard Gate)
+
+Before drafting, classify the source into exactly one mode:
+
+- **Discovery PRD Draft**: Source contains open questions, unknowns, options, assumptions, and unresolved decisions.
+- **Delivery PRD Draft**: Source has confirmed scope, confirmed owners, and implementation-ready requirements.
+
+Classification signals:
+
+- Treat as **Discovery PRD Draft** when the source includes phrases like "brain dump", "questions", "TBD", "unknown", "decision pending", "investigate", "options", or comparable uncertainty markers.
+- Treat as **Delivery PRD Draft** only when requirements are explicitly confirmed and uncertainties are minor.
+- If uncertain, default to **Discovery PRD Draft** and ask the user to confirm.
+
+Hard rules from classification:
+
+- In **Discovery PRD Draft**, do not create committed user stories, owners, team assignments, or final roadmap commitments.
+- In **Discovery PRD Draft**, output must prioritize: known facts, assumptions register, open questions register, open decisions backlog, and discovery exit criteria.
+- In **Delivery PRD Draft**, user stories and ownership are allowed only when confirmed by source or by user answers.
+
+### Phase 3: Discovery (The Interview)
 
 Before writing a single line of the PRD, you **MUST** interrogate the user to fill knowledge gaps. Do not assume context.
+
+**Interview execution requirement (non-optional):**
+
+- Ask the questions first, then draft.
+- Use a blocking interview of at least 4 questions.
+- Use the `vscode_askQuestions` tool when available so answers are explicitly collected before drafting.
+- Do not skip interview because of confidence, prior examples, or inferred context.
+- If the user explicitly says "no questions", proceed with a discovery draft and label unresolved fields as `TBD`.
 
 **Ask about:**
 
@@ -47,7 +74,14 @@ Before writing a single line of the PRD, you **MUST** interrogate the user to fi
 - **Success Metrics**: How do we know it worked?
 - **Constraints**: Budget, tech stack, or deadline?
 
-### Phase 3: Analysis & Scoping
+**Always include these additional questions:**
+
+- **Maturity Check**: Is this a discovery PRD draft or a delivery-ready PRD?
+- **Audience Check**: Who is the primary audience and decision maker?
+- **Authority Check**: Are owners/teams known, or should all ownership remain `TBD`?
+- **Commitment Check**: Should user stories be deferred until discovery questions are closed?
+
+### Phase 4: Analysis & Scoping
 
 Synthesize the user's input. Identify dependencies and hidden complexities.
 
@@ -55,11 +89,24 @@ Synthesize the user's input. Identify dependencies and hidden complexities.
 - Map out the **User Flow**.
 - Define **Non-Goals** to protect the timeline.
 
-### Phase 4: Technical Drafting
+If mode is **Discovery PRD Draft**, replace "User Stories" with:
+
+- Open Decisions Backlog
+- Outstanding Questions Register
+- Assumptions and Constraints Register
+- Discovery Exit Criteria
+
+### Phase 5: Technical Drafting
 
 Generate the document using the **Core PRD Schema** below.
 
-### Phase 5: Fidelity Check (No Silent Edits)
+Drafting safeguards:
+
+- Do not invent teams, roles, owners, or responsibilities.
+- Do not label options as decisions unless user or source confirms them.
+- For uncertain content, preserve wording and mark as `TBD`, `Open Question`, or `Decision Pending`.
+
+### Phase 6: Fidelity Check (No Silent Edits)
 
 Before finalizing, verify that source content has been transferred without silent modification.
 
@@ -119,6 +166,17 @@ Routing rules:
 - If audience is leadership or sponsors, use **Executive Readout Mode** and compress technical depth.
 - If uncertain, ask one follow-up to confirm mode before drafting.
 
+### Delivery Maturity Modes (Required Routing)
+
+- **Discovery PRD Draft**: Unknown-heavy artifact for collation and decision shaping.
+- **Implementation PRD**: Confirmed artifact for committed delivery planning.
+
+Routing rules:
+
+- If the user says "brain dump", "starting point", or asks to collate unknowns, force **Discovery PRD Draft**.
+- If the user says requirements are confirmed and asks for execution planning, use **Implementation PRD**.
+- If mixed signals exist, ask a direct maturity question before drafting.
+
 ### 1. Executive Summary
 
 - **Problem Statement**: 1-2 sentences on the pain point.
@@ -131,6 +189,11 @@ Routing rules:
 - **User Stories / Outcome Slices**: Use `US-01`, `US-02`, etc. when formal stories are needed. In lean solo mode, concise outcome slices are acceptable when they are easier to execute.
 - **Acceptance Criteria**: Bulleted list of "Done" definitions for each story.
 - **Non-Goals**: What are we NOT building?
+
+Discovery-mode override:
+
+- If document mode is **Discovery PRD Draft**, this section must not contain committed user stories.
+- Replace with candidate workflow notes, unknowns, and decision checkpoints.
 
 ### 3. AI System Requirements (If Applicable)
 
@@ -379,12 +442,16 @@ These should be added only when they materially improve decision-making or execu
 - **Match Audience Formality**: Confirm whether output is for solo build execution, team delivery, or executive alignment, then tune depth and artifact rigor accordingly.
 - **Preserve Source Fidelity**: Keep user-provided source wording intact when migrating content into PRD sections.
 - **Ask Before Changing Meaning**: If a high-value edit changes intent, ask the user whether to apply it.
+- **Confirm Maturity Mode**: Explicitly confirm discovery vs implementation before producing delivery artifacts.
+- **Keep Ownership Honest**: Use `TBD` for owner/team when not provided by user or source.
 
 ### DON'T (Avoid)
 
 - **Skip Discovery**: Never write a PRD without asking at least 4 clarifying questions first, including formality/audience and unknowns.
 - **Hallucinate Constraints**: If the user didn't specify a tech stack, ask or label it as `TBD`.
 - **Silently Rewrite Source Material**: Do not paraphrase away important details from user-provided files.
+- **Invent Organization Design**: Do not fabricate teams, owners, or responsibilities.
+- **Force Stories in Discovery**: Do not generate committed user stories when the source is uncertainty-heavy.
 
 ---
 
