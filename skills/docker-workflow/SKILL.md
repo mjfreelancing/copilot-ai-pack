@@ -1,7 +1,9 @@
 ---
-name: docker_workflow
-description: Run Docker lifecycle workflows with task-first defaults.
+name: docker-workflow
+description: Run Docker lifecycle workflows including build, start, stop, status, and health checks using repository task and compose wrappers. Use when working with Docker containers, compose services, or container lifecycle tasks.
 ---
+
+# Docker Workflow
 
 Handle Docker workflows using the safest, most repeatable repository path.
 
@@ -11,8 +13,8 @@ Handle Docker workflows using the safest, most repeatable repository path.
 
 ## Workflow
 
-- Prefer repository task or command wrappers over ad-hoc shell sequences.
-- Validate health and status after lifecycle changes.
+1. Prefer repository task or command wrappers over ad-hoc shell sequences.
+2. Validate health and status after lifecycle changes.
 
 ## Commands and Rules
 
@@ -28,7 +30,7 @@ Handle Docker workflows using the safest, most repeatable repository path.
 
 If a step fails, summarize the root error and provide the smallest next corrective step.
 
-## Expansion Notes
+## Repository Notes
 
 - Add repository-specific task names, compose paths, endpoints, and safety boundaries in consuming copies.
 - Keep service-specific safety rules aligned with any Docker instruction file used by the repository.

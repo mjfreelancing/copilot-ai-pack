@@ -1,7 +1,9 @@
 ---
-name: code_coverage
-description: Run repository coverage workflow and summarize results.
+name: code-coverage
+description: Run the repository code coverage workflow and summarize results. Use when asked to run coverage, generate coverage reports, or summarize coverage metrics and failures.
 ---
+
+# Code Coverage
 
 Run code coverage using repository defaults.
 
@@ -30,7 +32,7 @@ Adjust the example commands below to match your repository structure.
 - Headline coverage summary or key metrics when available
 - Any warnings, failed modules, or missing artifacts
 
-## Expansion Notes
+## Repository Notes
 
 - Keep tool-specific coverage details in repository scripts and coverage configuration files.
-- Add repository-specific commands and output paths in consuming copies of this prompt.
+- Add repository-specific commands and output paths in consuming copies.

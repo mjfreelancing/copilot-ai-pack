@@ -8,25 +8,28 @@ Copy the selected `*.instructions.md` files from this folder into `.github/instr
 
 ## Available files
 
-| File                                           | Description                                                       |
-| ---------------------------------------------- | ----------------------------------------------------------------- |
-| `language-agnostic-core.instructions.md`       | Baseline coding behavior that applies across stacks.              |
-| `csharp.instructions.md`                       | Core C# and .NET guidance.                                        |
-| `typescript.instructions.md`                   | Core TypeScript guidance.                                         |
-| `react-client.instructions.md`                 | React client architecture and UI guidance.                        |
-| `aspnetcore-api.instructions.md`               | ASP.NET Core API endpoint and contract guidance.                  |
-| `aspnetcore.integration-tests.instructions.md` | ASP.NET Core hosted integration testing guidance.                 |
-| `dotnet.tests.instructions.md`                 | Deterministic .NET unit testing guidance.                         |
-| `server.instructions.md`                       | Server-layer architecture and persistence guidance.               |
-| `client.tests.instructions.md`                 | Client test design and tooling guidance.                          |
-| `postgres-efcore.instructions.md`              | PostgreSQL and EF Core modeling/query/migration guidance.         |
-| `docker.instructions.md`                       | Docker workflow safety and validation guidance.                   |
-| `playwright-e2e.instructions.md`               | Playwright E2E locator, click, assertion, and stability guidance. |
+| File                                           | Description                                                            |
+| ---------------------------------------------- | ---------------------------------------------------------------------- |
+| `language-agnostic-core.instructions.md`       | Baseline coding behavior that applies across stacks.                   |
+| `csharp.instructions.md`                       | Core C# and .NET guidance.                                             |
+| `typescript.instructions.md`                   | Core TypeScript guidance.                                              |
+| `react-client.instructions.md`                 | React client architecture and UI guidance.                             |
+| `aspnetcore-api.instructions.md`               | ASP.NET Core API endpoint and contract guidance.                       |
+| `aspnetcore.integration-tests.instructions.md` | ASP.NET Core hosted integration testing guidance.                      |
+| `dotnet.tests.instructions.md`                 | Deterministic .NET unit testing guidance.                              |
+| `server.instructions.md`                       | Server-layer architecture and persistence guidance.                    |
+| `client.tests.instructions.md`                 | Client test design and tooling guidance.                               |
+| `postgres-efcore.instructions.md`              | PostgreSQL and EF Core modeling/query/migration guidance.              |
+| `docker.instructions.md`                       | Docker workflow safety and validation guidance.                        |
+| `playwright-e2e.instructions.md`               | Playwright E2E locator, click, assertion, and stability guidance.      |
+| `coding-patterns.instructions.md`              | C# coding patterns and AllOverIt extension and validation preferences. |
+| `wpf-materialdesign.instructions.md`           | WPF MaterialDesignInXamlToolkit theming and theme switching.           |
 
 ## Notes
 
 - These files are stored flat to mirror the final `.github/instructions/` structure.
 - Adjust `applyTo` values after copying if your repository layout differs from the examples.
+- Avoid `applyTo: "**/*"` on multiple instruction files: it sends every file with every request and dilutes agent attention. Reserve always-on guidance for the repository's `.github/copilot-instructions.md` and keep `*.instructions.md` scoped to specific file patterns.
 - See `../README.md` for asset combinations and adoption guidance.
 
 ## Baseline and Mirror Workflow

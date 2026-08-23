@@ -10,6 +10,7 @@ What this repository includes:
 
 - instructions for language, framework, testing, and workflow behavior
 - prompts for common testing tasks
+- skills for on-demand multi-step workflows and capabilities
 - scripts for environment diagnostics and setup support
 
 The operating model is deliberately simple: pick the assets that fit your stack, copy them into `.github` in the consuming repository, and edit them there.
@@ -17,7 +18,7 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 ## Quick start
 
 1. Read the catalog sections below and choose the assets that match your repository.
-2. Copy selected files from `instructions/`, `prompts/`, and `scripts/` into the matching `.github/` folders in your repository.
+2. Copy selected files from `instructions/`, `prompts/`, `skills/`, and `scripts/` into the matching `.github/` folders in your repository.
 3. Adjust copied content to your repository structure and conventions.
 4. Commit the copied files in the consuming repository.
 
@@ -25,6 +26,7 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 
 - `instructions/*.instructions.md` -> `.github/instructions/`
 - `prompts/*.prompt.md` -> `.github/prompts/`
+- `skills/<name>/` -> `.github/skills/<name>/`
 - `scripts/<pack>/...` -> `.github/scripts/<pack>/`
 
 ## How to choose quickly
@@ -33,6 +35,7 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 - Add language-specific instructions next, such as `csharp.instructions.md` or `typescript.instructions.md`.
 - Add framework or database instructions only if your repository needs them.
 - Add prompts when you want task entry points for test work.
+- Add skills when you want on-demand workflows for test suites, coverage, Docker lifecycle, or feature delivery.
 - Add `scripts/agent-env-tools/` when you want agents to confirm the environment is ready before starting a session.
 
 ## Recommended combinations
@@ -75,25 +78,41 @@ Instruction notes:
 
 Use these when you want reusable task entry points copied into `.github/prompts/`.
 
-| File                                | Use when                                                                |
-| ----------------------------------- | ----------------------------------------------------------------------- |
-| `repo_tests.prompt.md`              | You want an agent to run repository test suites and summarize failures. |
-| `typescript_tests.prompt.md`        | You want an agent to create or update TypeScript tests.                 |
-| `client_tests.prompt.md`            | You want an agent to create or update web client tests.                 |
-| `dotnet_unit_test.prompt.md`        | You want an agent to create or update .NET unit tests.                  |
-| `server_unit_test.prompt.md`        | You want an agent to create or update server unit tests.                |
-| `dotnet_integration_test.prompt.md` | You want an agent to create or update hosted API integration tests.     |
-| `server_integration_test.prompt.md` | You want an agent to create or update server integration tests.         |
-| `code_coverage.prompt.md`           | You want an agent to run repository coverage and summarize results.     |
-| `docker_workflow.prompt.md`         | You want an agent to run repository Docker lifecycle workflows.         |
-| `document_csharp.prompt.md`         | You want an agent to add or update XML docs for C# code.                |
-| `document_typescript.prompt.md`     | You want an agent to add or update TSDoc or JSDoc for TypeScript code.  |
-| `feature_implementation.prompt.md`  | You want an agent to implement a feature with a focused checklist.      |
+| File                            | Use when                                                                |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| `repo_tests.prompt.md`          | You want an agent to run repository test suites and summarize failures. |
+| `typescript_tests.prompt.md`    | You want an agent to create or update TypeScript tests.                 |
+| `client_tests.prompt.md`        | You want an agent to create or update web client tests.                 |
+| `dotnet_unit_test.prompt.md`    | You want an agent to create or update .NET unit tests.                  |
+| `server_unit_test.prompt.md`    | You want an agent to create or update server unit tests.                |
+| `document_csharp.prompt.md`     | You want an agent to add or update XML docs for C# code.                |
+| `document_typescript.prompt.md` | You want an agent to add or update TSDoc or JSDoc for TypeScript code.  |
+| `mmd2png.prompt.md`             | You want an agent to convert Mermaid diagram (.mmd) files to PNG.       |
 
 Prompt notes:
 
 - Prompt path examples are templates and should be adjusted to the consuming repository.
 - Prompt files work well alongside the related instruction files rather than as a substitute for them.
+- The workflow prompts previously listed here (coverage, Docker, integration tests, feature implementation) are now skills under `skills/`.
+
+### Skills
+
+Use these when you want on-demand, multi-step workflows copied into `.github/skills/<name>/`.
+
+| Skill                     | Use when                                                            |
+| ------------------------- | ------------------------------------------------------------------- |
+| `prd`                     | You want an agent to draft a product requirements document.         |
+| `docker-workflow`         | You want an agent to run repository Docker lifecycle workflows.     |
+| `code-coverage`           | You want an agent to run repository coverage and summarize results. |
+| `dotnet-integration-test` | You want an agent to create or update hosted API integration tests. |
+| `server-integration-test` | You want an agent to create or update server integration tests.     |
+| `feature-implementation`  | You want an agent to implement a feature with a focused checklist.  |
+
+Skill notes:
+
+- Skills load on demand: only the matching skill is loaded when relevant, so they do not consume context on every request.
+- Add skills alongside the assets above when you want on-demand workflows for test suites, coverage, Docker lifecycle, or feature delivery.
+- See `skills/README.md` for skill format and copy guidance.
 
 ### Scripts
 
@@ -124,9 +143,22 @@ Main files:
 
 - `instructions/` — instruction source files and their index README
 - `prompts/` — prompt source files and their index README
+- `skills/` — skill source folders and their index README
 - `scripts/` — script-based utility packs and their index README
 - `scripts/agent-env-tools/` — environment diagnostics script pack
 - `.github/copilot-instructions.md` — maintainer guidance for evolving this repository
+
+## Where to put assets: project vs global
+
+- Project (workspace): copy assets into `.github/` in each consuming repository. This is the default for team-shared guidance and is committed with the repository.
+- Personal (global): for your own cross-project preferences, use your VS Code user profile (`~/.copilot/instructions`, `~/.copilot/skills`, user-level prompts). These roam across devices with Settings Sync and apply to every workspace.
+- Keep global assets minimal and non-conflicting: personal instructions take precedence over repository instructions when they conflict.
+- Organization: only when you need enforcement across a GitHub organization (requires Copilot Business or Enterprise).
+
+## Advanced: hooks and MCP
+
+- Hooks enforce behavior deterministically (for example auto-format, block a tool) where instructions only guide it. Add them to `.github/hooks/` in a consuming repository when a rule must not be left to judgment.
+- MCP servers connect agents to external knowledge (APIs, internal docs, package catalogs) instead of copying that knowledge into the repository.
 
 ## Maintainer notes
 
