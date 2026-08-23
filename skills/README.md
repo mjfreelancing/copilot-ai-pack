@@ -12,14 +12,14 @@ Copy each selected skill folder from this folder into `.github/skills/` in your 
 
 ## Available skills
 
-| Skill                     | Description                                                              |
-| ------------------------- | ------------------------------------------------------------------------ |
-| `prd`                     | Generate high-quality Product Requirements Documents (PRDs).             |
-| `docker-workflow`         | Run Docker lifecycle workflows with task-first defaults and validation.  |
-| `code-coverage`           | Run repository coverage workflow and summarize results.                  |
-| `dotnet-integration-test` | Create or update .NET integration tests.                           |
-| `server-integration-test` | Create or update hosted server API integration tests that boot the app host.                    |
-| `feature-implementation`  | Implement a feature with a cross-layer checklist and focused validation. |
+| Skill                     | Description                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `prd`                     | Generate high-quality Product Requirements Documents (PRDs).                 |
+| `docker-workflow`         | Run Docker lifecycle workflows with task-first defaults and validation.      |
+| `code-coverage`           | Run repository coverage workflow and summarize results.                      |
+| `dotnet-integration-test` | Create or update .NET integration tests.                                     |
+| `server-integration-test` | Create or update hosted server API integration tests that boot the app host. |
+| `feature-implementation`  | Implement a feature with a cross-layer checklist and focused validation.     |
 
 ## Notes
 

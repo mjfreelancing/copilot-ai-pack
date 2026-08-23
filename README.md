@@ -40,14 +40,14 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 
 ## Recommended combinations
 
-| Repository type                                 | Suggested assets                                                                                                                                                                                     |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .NET backend or service                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `dotnet.tests.instructions.md`                                                                                           |
-| ASP.NET Core API                                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `aspnetcore-api.instructions.md` <br> `aspnetcore.integration-tests.instructions.md` <br> `dotnet.tests.instructions.md` |
-| PostgreSQL with EF Core                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `postgres-efcore.instructions.md`                                                                                        |
-| React and TypeScript client                     | `language-agnostic-core.instructions.md` <br> `typescript.instructions.md` <br> `react-client.instructions.md` <br> `playwright-e2e.instructions.md` (when E2E tests are used) <br> one or more prompt files from `prompts/`                                         |
-| WPF desktop app (MaterialDesign)                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `wpf-materialdesign.instructions.md`
-| Any stack where agent session readiness matters | `scripts/agent-env-tools/`                                                                                                                                                                           |
+| Repository type                                 | Suggested assets                                                                                                                                                                                                             |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| .NET backend or service                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `dotnet.tests.instructions.md`                                                                                                                   |
+| ASP.NET Core API                                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `aspnetcore-api.instructions.md` <br> `aspnetcore.integration-tests.instructions.md` <br> `dotnet.tests.instructions.md`                         |
+| PostgreSQL with EF Core                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `postgres-efcore.instructions.md`                                                                                                                |
+| React and TypeScript client                     | `language-agnostic-core.instructions.md` <br> `typescript.instructions.md` <br> `react-client.instructions.md` <br> `playwright-e2e.instructions.md` (when E2E tests are used) <br> one or more prompt files from `prompts/` |
+| WPF desktop app (MaterialDesign)                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `wpf-materialdesign.instructions.md`                                                                                                             |
+| Any stack where agent session readiness matters | `scripts/agent-env-tools/`                                                                                                                                                                                                   |
 
 ## Asset catalog
 
@@ -55,22 +55,22 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 
 Use these when you want always-on guidance copied into `.github/instructions/` in a consuming repository.
 
-| File                                           | Use when                                                                         |
-| ---------------------------------------------- | -------------------------------------------------------------------------------- |
-| `language-agnostic-core.instructions.md`       | You want baseline coding behavior that applies across stacks.                    |
-| `csharp.instructions.md`                       | The repository has C# or .NET production code.                                   |
-| `typescript.instructions.md`                   | The repository has TypeScript code and needs language-level guardrails.          |
-| `react-client.instructions.md`                 | The repository includes a React frontend.                                        |
-| `aspnetcore-api.instructions.md`               | The repository exposes ASP.NET Core API endpoints.                               |
-| `aspnetcore.integration-tests.instructions.md` | You run hosted API tests through real HTTP pipeline behavior.                    |
-| `dotnet.tests.instructions.md`                 | You want deterministic .NET unit testing conventions.                            |
-| `server.instructions.md`                       | You want server-layer architecture and persistence workflow guidance.            |
-| `client.tests.instructions.md`                 | You want client test conventions separated from production client rules.         |
-| `postgres-efcore.instructions.md`              | The repository uses EF Core with PostgreSQL and migration-driven schema changes. |
-| `docker.instructions.md`                       | The repository includes Docker workflow or container validation work.            |
+| File                                           | Use when                                                                               |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `language-agnostic-core.instructions.md`       | You want baseline coding behavior that applies across stacks.                          |
+| `csharp.instructions.md`                       | The repository has C# or .NET production code.                                         |
+| `typescript.instructions.md`                   | The repository has TypeScript code and needs language-level guardrails.                |
+| `react-client.instructions.md`                 | The repository includes a React frontend.                                              |
+| `aspnetcore-api.instructions.md`               | The repository exposes ASP.NET Core API endpoints.                                     |
+| `aspnetcore.integration-tests.instructions.md` | You run hosted API tests through real HTTP pipeline behavior.                          |
+| `dotnet.tests.instructions.md`                 | You want deterministic .NET unit testing conventions.                                  |
+| `server.instructions.md`                       | You want server-layer architecture and persistence workflow guidance.                  |
+| `client.tests.instructions.md`                 | You want client test conventions separated from production client rules.               |
+| `postgres-efcore.instructions.md`              | The repository uses EF Core with PostgreSQL and migration-driven schema changes.       |
+| `docker.instructions.md`                       | The repository includes Docker workflow or container validation work.                  |
 | `coding-patterns.instructions.md`              | The repository uses C# coding patterns and AllOverIt extension/validation preferences. |
-| `playwright-e2e.instructions.md`               | The repository includes Playwright E2E test work.                                 |
-| `wpf-materialdesign.instructions.md`           | The repository includes WPF apps using the MaterialDesignInXamlToolkit (MDIX).    |
+| `playwright-e2e.instructions.md`               | The repository includes Playwright E2E test work.                                      |
+| `wpf-materialdesign.instructions.md`           | The repository includes WPF apps using the MaterialDesignInXamlToolkit (MDIX).         |
 
 Instruction notes:
 
@@ -103,14 +103,14 @@ Prompt notes:
 
 Use these when you want on-demand, multi-step workflows copied into `.github/skills/<name>/`.
 
-| Skill                     | Use when                                                            |
-| ------------------------- | ------------------------------------------------------------------- |
-| `prd`                     | You want an agent to draft a product requirements document.         |
-| `docker-workflow`         | You want an agent to run repository Docker lifecycle workflows.     |
-| `code-coverage`           | You want an agent to run repository coverage and summarize results. |
-| `dotnet-integration-test` | You want an agent to create or update .NET integration tests. |
-| `server-integration-test` | You want an agent to create or update hosted server API integration tests.     |
-| `feature-implementation`  | You want an agent to implement a feature with a focused checklist.  |
+| Skill                     | Use when                                                                   |
+| ------------------------- | -------------------------------------------------------------------------- |
+| `prd`                     | You want an agent to draft a product requirements document.                |
+| `docker-workflow`         | You want an agent to run repository Docker lifecycle workflows.            |
+| `code-coverage`           | You want an agent to run repository coverage and summarize results.        |
+| `dotnet-integration-test` | You want an agent to create or update .NET integration tests.              |
+| `server-integration-test` | You want an agent to create or update hosted server API integration tests. |
+| `feature-implementation`  | You want an agent to implement a feature with a focused checklist.         |
 
 Skill notes:
 
