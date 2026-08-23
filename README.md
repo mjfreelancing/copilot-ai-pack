@@ -61,10 +61,9 @@ Use these when you want always-on guidance copied into `.github/instructions/` i
 | `csharp.instructions.md`                       | The repository has C# or .NET production code.                                         |
 | `typescript.instructions.md`                   | The repository has TypeScript code and needs language-level guardrails.                |
 | `react-client.instructions.md`                 | The repository includes a React frontend.                                              |
-| `aspnetcore-api.instructions.md`               | The repository exposes ASP.NET Core API endpoints.                                     |
+| `aspnetcore-api.instructions.md`               | The repository exposes ASP.NET Core API endpoints and needs server-layer architecture/persistence guidance. |
 | `aspnetcore.integration-tests.instructions.md` | You run hosted API tests through real HTTP pipeline behavior.                          |
 | `dotnet.tests.instructions.md`                 | You want deterministic .NET unit testing conventions.                                  |
-| `server.instructions.md`                       | You want server-layer architecture and persistence workflow guidance.                  |
 | `client.tests.instructions.md`                 | You want client test conventions separated from production client rules.               |
 | `postgres-efcore.instructions.md`              | The repository uses EF Core with PostgreSQL and migration-driven schema changes.       |
 | `docker.instructions.md`                       | The repository includes Docker workflow or container validation work.                  |

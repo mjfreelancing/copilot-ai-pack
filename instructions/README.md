@@ -14,10 +14,9 @@ Copy the selected `*.instructions.md` files from this folder into `.github/instr
 | `csharp.instructions.md`                       | Core C# and .NET guidance.                                             |
 | `typescript.instructions.md`                   | Core TypeScript guidance.                                              |
 | `react-client.instructions.md`                 | React client architecture and UI guidance.                             |
-| `aspnetcore-api.instructions.md`               | ASP.NET Core API endpoint and contract guidance.                       |
+| `aspnetcore-api.instructions.md`               | ASP.NET Core API endpoint, contract, and server-layer guidance.        |
 | `aspnetcore.integration-tests.instructions.md` | ASP.NET Core hosted integration testing guidance.                      |
 | `dotnet.tests.instructions.md`                 | Deterministic .NET unit testing guidance.                              |
-| `server.instructions.md`                       | Server-layer architecture and persistence guidance.                    |
 | `client.tests.instructions.md`                 | Client test design and tooling guidance.                               |
 | `postgres-efcore.instructions.md`              | PostgreSQL and EF Core modeling/query/migration guidance.              |
 | `docker.instructions.md`                       | Docker workflow safety and validation guidance.                        |
