@@ -17,3 +17,8 @@ Create unit tests for .NET code.
 Adjust the example paths below to match your repository structure.
 
 - `dotnet test .\Source\Server\MySolution.sln -c Debug --nologo --verbosity minimal` (from `.\Source\Server`)
+
+## Expansion Notes
+
+- Keep coding and assertion conventions in instruction files.
+- Add repository-specific project paths and command variants in consuming copies.

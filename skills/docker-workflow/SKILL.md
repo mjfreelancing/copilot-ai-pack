@@ -1,6 +1,7 @@
 ---
 name: docker-workflow
 description: Run Docker lifecycle workflows including build, start, stop, status, and health checks using repository task and compose wrappers. Use when working with Docker containers, compose services, or container lifecycle tasks.
+license: MIT
 ---
 
 # Docker Workflow

@@ -1,11 +1,18 @@
 ---
 name: dotnet-integration-test
-description: Create or update hosted API integration tests with contract-focused assertions. Use when writing integration tests for .NET APIs that exercise HTTP boundary behavior.
+description: Create or update .NET integration tests with contract-focused assertions. Use when writing integration tests for .NET code, including hosted API tests that exercise HTTP boundary behavior.
+license: MIT
 ---
 
 # .NET Integration Test
 
-Create integration tests for API boundary behavior.
+Create integration tests for .NET API boundary behavior.
+
+## Unit vs Integration Decision
+
+- Use this skill when tests verify how .NET components interact, including hosted API behavior.
+- If the test does not require integration behavior, use the `dotnet_unit_test.prompt.md` prompt instead.
+- If tests must boot the application host and validate transport-boundary behavior through real HTTP requests, prefer the `server-integration-test` skill.
 
 ## Workflow
 

@@ -17,3 +17,8 @@ Create tests for TypeScript/JavaScript code.
 Adjust the example paths below to match your repository structure.
 
 - `npm run test` (from `.\Source\Client\my-app`)
+
+## Expansion Notes
+
+- Keep framework-specific TypeScript test conventions in instruction files.
+- Add repository-specific commands and paths under `Execution`.

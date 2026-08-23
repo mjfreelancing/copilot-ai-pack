@@ -1,6 +1,7 @@
 ---
 name: feature-implementation
 description: Implement a feature with a concise cross-layer checklist and focused validation. Use when asked to implement a feature that spans client, API, application, data, or infrastructure layers.
+license: MIT
 ---
 
 # Feature Implementation

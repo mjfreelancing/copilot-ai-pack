@@ -1,6 +1,7 @@
 ---
 name: server-integration-test
 description: Create or update hosted server API integration tests with contract-focused assertions. Use when tests must boot the application host and validate transport-boundary behavior through real HTTP requests.
+license: MIT
 ---
 
 # Server Integration Test
@@ -16,6 +17,7 @@ Create integration tests for server API boundary behavior.
 
 - Use this skill when tests require the hosted server, middleware, or real `HttpClient` requests.
 - If the test does not require hosted API behavior, use the `server_unit_test.prompt.md` prompt instead.
+- For general .NET integration tests that do not require booting the application host, use the `dotnet-integration-test` skill instead.
 
 ## Workflow
 

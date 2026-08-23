@@ -1,6 +1,7 @@
 ---
 name: code-coverage
 description: Run the repository code coverage workflow and summarize results. Use when asked to run coverage, generate coverage reports, or summarize coverage metrics and failures.
+license: MIT
 ---
 
 # Code Coverage

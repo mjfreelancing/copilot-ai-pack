@@ -30,6 +30,7 @@ Copy the selected `*.instructions.md` files from this folder into `.github/instr
 - These files are stored flat to mirror the final `.github/instructions/` structure.
 - Adjust `applyTo` values after copying if your repository layout differs from the examples.
 - Avoid `applyTo: "**/*"` on multiple instruction files: it sends every file with every request and dilutes agent attention. Reserve always-on guidance for the repository's `.github/copilot-instructions.md` and keep `*.instructions.md` scoped to specific file patterns.
+- `language-agnostic-core.instructions.md` is the sanctioned exception: it is the single always-on baseline and keeps `applyTo: "**/*"`. Do not add more `**/*` instruction files.
 - See `../README.md` for asset combinations and adoption guidance.
 
 ## Baseline and Mirror Workflow

@@ -45,7 +45,8 @@ The operating model is deliberately simple: pick the assets that fit your stack,
 | .NET backend or service                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `dotnet.tests.instructions.md`                                                                                           |
 | ASP.NET Core API                                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `aspnetcore-api.instructions.md` <br> `aspnetcore.integration-tests.instructions.md` <br> `dotnet.tests.instructions.md` |
 | PostgreSQL with EF Core                         | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `postgres-efcore.instructions.md`                                                                                        |
-| React and TypeScript client                     | `language-agnostic-core.instructions.md` <br> `typescript.instructions.md` <br> `react-client.instructions.md` <br> one or more prompt files from `prompts/`                                         |
+| React and TypeScript client                     | `language-agnostic-core.instructions.md` <br> `typescript.instructions.md` <br> `react-client.instructions.md` <br> `playwright-e2e.instructions.md` (when E2E tests are used) <br> one or more prompt files from `prompts/`                                         |
+| WPF desktop app (MaterialDesign)                | `language-agnostic-core.instructions.md` <br> `csharp.instructions.md` <br> `wpf-materialdesign.instructions.md`
 | Any stack where agent session readiness matters | `scripts/agent-env-tools/`                                                                                                                                                                           |
 
 ## Asset catalog
@@ -67,6 +68,9 @@ Use these when you want always-on guidance copied into `.github/instructions/` i
 | `client.tests.instructions.md`                 | You want client test conventions separated from production client rules.         |
 | `postgres-efcore.instructions.md`              | The repository uses EF Core with PostgreSQL and migration-driven schema changes. |
 | `docker.instructions.md`                       | The repository includes Docker workflow or container validation work.            |
+| `coding-patterns.instructions.md`              | The repository uses C# coding patterns and AllOverIt extension/validation preferences. |
+| `playwright-e2e.instructions.md`               | The repository includes Playwright E2E test work.                                 |
+| `wpf-materialdesign.instructions.md`           | The repository includes WPF apps using the MaterialDesignInXamlToolkit (MDIX).    |
 
 Instruction notes:
 
@@ -93,7 +97,7 @@ Prompt notes:
 
 - Prompt path examples are templates and should be adjusted to the consuming repository.
 - Prompt files work well alongside the related instruction files rather than as a substitute for them.
-- The workflow prompts previously listed here (coverage, Docker, integration tests, feature implementation) are now skills under `skills/`.
+- The workflow prompts previously listed here (Docker workflow, code coverage, .NET integration tests, server integration tests, feature implementation) are now skills under `skills/`.
 
 ### Skills
 
@@ -104,8 +108,8 @@ Use these when you want on-demand, multi-step workflows copied into `.github/ski
 | `prd`                     | You want an agent to draft a product requirements document.         |
 | `docker-workflow`         | You want an agent to run repository Docker lifecycle workflows.     |
 | `code-coverage`           | You want an agent to run repository coverage and summarize results. |
-| `dotnet-integration-test` | You want an agent to create or update hosted API integration tests. |
-| `server-integration-test` | You want an agent to create or update server integration tests.     |
+| `dotnet-integration-test` | You want an agent to create or update .NET integration tests. |
+| `server-integration-test` | You want an agent to create or update hosted server API integration tests.     |
 | `feature-implementation`  | You want an agent to implement a feature with a focused checklist.  |
 
 Skill notes:

@@ -99,7 +99,7 @@ Write-Host "[agent-diagnostics] CWD: $((Get-Location).Path)"
 # - `Purpose` text is shown to users when tools are missing.
 $checks = @(
     @{ Name = "git"; Required = $true; Version = { git --version }; Purpose = "Source control operations and repository workflows."; WingetId = "Git.Git" },
-    @{ Name = "dotnet"; Required = $true; Version = { dotnet --version }; Purpose = "Build, test, and run the .NET server projects."; WingetId = "Microsoft.DotNet.SDK.9" },
+    @{ Name = "dotnet"; Required = $true; Version = { dotnet --version }; Purpose = "Build, test, and run the .NET server projects."; WingetId = "Microsoft.DotNet.SDK.10" },
     @{ Name = "node"; Required = $true; Version = { node --version }; Purpose = "Run client tooling and scripts."; WingetId = "OpenJS.NodeJS.LTS" },
     @{ Name = "npm"; Required = $true; Version = { npm --version }; Purpose = "Install and run JavaScript/TypeScript dependencies."; WingetId = "OpenJS.NodeJS.LTS" },
     @{ Name = "docker"; Required = $false; Version = { docker --version }; Purpose = "Run local containerized client/server stack."; WingetId = "Docker.DockerDesktop" },
